@@ -115,13 +115,13 @@ Forms use visible labels, fieldsets and legends, validation messages, and native
 **Prerequisite:** Node.js 20 or newer and npm.
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/jaya4ever/thyroid-companion.git
 cd thyroid-companion
 npm install
 npm run dev
 ```
 
-Replace `<repository-url>` with the clone URL after the public repository has been created. Open the local URL printed by Vite (typically `http://localhost:5173`).
+Open the local URL printed by Vite (typically `http://localhost:5173`).
 
 ## Validation
 
