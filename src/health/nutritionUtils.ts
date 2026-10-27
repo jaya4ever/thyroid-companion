@@ -34,7 +34,7 @@ export function validateNutritionEntry(input: NutritionEntryInput, today = new D
   for (const metric of nutritionMetrics) {
     const value = input[metric];
     if (value !== undefined && (!Number.isFinite(value) || value < 0)) {
-      return `Enter a finite, non-negative ${metric === "calories" ? "calorie" : "macronutrient"} value.`;
+      return `Enter a finite, non-negative ${nutritionMetricLabels[metric].label.toLocaleLowerCase()} value.`;
     }
   }
   return "";

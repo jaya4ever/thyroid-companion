@@ -3,6 +3,7 @@ import {
   distanceFromKilometers,
   filterActivityEntries,
   getActivityDailySeries,
+  formatActivityType,
   getActivityMinutesForPeriod,
   kilometersFromDistance,
   sortActivityEntries,
@@ -17,6 +18,9 @@ const activities: ActivityEntry[] = [
 ];
 
 describe("activity helpers", () => {
+  it("formats activity names consistently for reports and history", () => {
+    expect(formatActivityType("strength training")).toBe("Strength Training");
+  });
   it("converts kilometers and miles accurately", () => {
     expect(kilometersFromDistance(1, "mi")).toBe(1.609344);
     expect(distanceFromKilometers(1.609344, "mi")).toBeCloseTo(1, 12);

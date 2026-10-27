@@ -65,6 +65,14 @@ afterEach(() => {
 });
 
 describe("medication tracking", () => {
+  it("exposes dose history as a named keyboard-scrollable region", () => {
+    renderWithProviders(<MedicationsPage />);
+
+    const tableRegion = screen.getByRole("region", { name: "Recorded medication dose history" });
+    expect(tableRegion.tabIndex).toBe(0);
+    expect(within(tableRegion).getByRole("table", { name: "Recorded medication dose history" })).toBeTruthy();
+  });
+
   it("adds, edits, and deletes medication records with confirmation", async () => {
     const user = userEvent.setup();
     vi.spyOn(window, "confirm").mockReturnValue(true);

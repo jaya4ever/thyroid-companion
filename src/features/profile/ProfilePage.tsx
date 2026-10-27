@@ -188,11 +188,12 @@ function ProfileForm({ profile, latestWeightEntry, saveProfile, onCancel, onSave
     <form className="profile-form" onSubmit={handleSubmit} noValidate>
       <div className="form-grid">
         <div className="form-field">
-          <label className="field-label" htmlFor="profile-name">Full name</label>
+          <label className="field-label" data-required="true" htmlFor="profile-name">Full name</label>
           <input
             className="field-input"
             id="profile-name"
             autoComplete="name"
+            required
             value={draft.name}
             onChange={(event) => updateField('name', event.target.value)}
             aria-invalid={Boolean(errors.name)}
@@ -202,13 +203,14 @@ function ProfileForm({ profile, latestWeightEntry, saveProfile, onCancel, onSave
         </div>
 
         <div className="form-field">
-          <label className="field-label" htmlFor="profile-dob">Date of birth</label>
+          <label className="field-label" data-required="true" htmlFor="profile-dob">Date of birth</label>
           <input
             className="field-input"
             id="profile-dob"
             type="date"
             value={draft.dateOfBirth}
             max={toIsoDate(new Date())}
+            required
             onChange={(event) => updateField('dateOfBirth', event.target.value)}
             aria-invalid={Boolean(errors.dateOfBirth)}
             aria-describedby={errors.dateOfBirth ? 'profile-dob-error' : 'profile-age-hint'}
@@ -220,7 +222,7 @@ function ProfileForm({ profile, latestWeightEntry, saveProfile, onCancel, onSave
       </div>
 
       <fieldset className="form-field form-field-wide">
-        <legend className="field-label">Height</legend>
+        <legend className="field-label" data-required="true">Height</legend>
         <div className="unit-field-row">
           <select
             className="field-input field-select"
@@ -239,19 +241,19 @@ function ProfileForm({ profile, latestWeightEntry, saveProfile, onCancel, onSave
           {draft.heightUnit === 'cm' ? (
             <label className="unit-input-wrap">
               <span className="visually-hidden">Height in centimeters</span>
-              <input className="field-input" type="number" min="0" step="0.1" inputMode="decimal" value={draft.heightCm} onChange={(event) => updateField('heightCm', event.target.value)} aria-invalid={Boolean(errors.height)} aria-describedby={errors.height ? 'profile-height-error' : undefined} />
+              <input className="field-input" type="number" min="0" step="0.1" inputMode="decimal" value={draft.heightCm} onChange={(event) => updateField('heightCm', event.target.value)} required aria-invalid={Boolean(errors.height)} aria-describedby={errors.height ? 'profile-height-error' : undefined} />
               <span className="unit-suffix">cm</span>
             </label>
           ) : (
             <div className="imperial-inputs">
               <label className="unit-input-wrap">
                 <span className="visually-hidden">Height in feet</span>
-                <input className="field-input" type="number" min="0" step="1" inputMode="numeric" value={draft.heightFeet} onChange={(event) => updateField('heightFeet', event.target.value)} aria-invalid={Boolean(errors.height)} aria-describedby={errors.height ? 'profile-height-error' : undefined} />
+                <input className="field-input" type="number" min="0" step="1" inputMode="numeric" value={draft.heightFeet} onChange={(event) => updateField('heightFeet', event.target.value)} required aria-invalid={Boolean(errors.height)} aria-describedby={errors.height ? 'profile-height-error' : undefined} />
                 <span className="unit-suffix">ft</span>
               </label>
               <label className="unit-input-wrap">
                 <span className="visually-hidden">Height in inches</span>
-                <input className="field-input" type="number" min="0" max="11.9" step="0.1" inputMode="decimal" value={draft.heightInches} onChange={(event) => updateField('heightInches', event.target.value)} aria-invalid={Boolean(errors.height)} aria-describedby={errors.height ? 'profile-height-error' : undefined} />
+                <input className="field-input" type="number" min="0" max="11.9" step="0.1" inputMode="decimal" value={draft.heightInches} onChange={(event) => updateField('heightInches', event.target.value)} required aria-invalid={Boolean(errors.height)} aria-describedby={errors.height ? 'profile-height-error' : undefined} />
                 <span className="unit-suffix">in</span>
               </label>
             </div>
@@ -279,13 +281,13 @@ function ProfileForm({ profile, latestWeightEntry, saveProfile, onCancel, onSave
           </select>
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="profile-current-weight">Current weight ({draft.weightUnit})</label>
-          <input className="field-input" id="profile-current-weight" type="number" min="0" step="0.1" inputMode="decimal" value={draft.currentWeight} onChange={(event) => updateField('currentWeight', event.target.value)} aria-invalid={Boolean(errors.currentWeight)} aria-describedby={errors.currentWeight ? 'profile-current-weight-error' : undefined} />
+          <label className="field-label" data-required="true" htmlFor="profile-current-weight">Current weight ({draft.weightUnit})</label>
+          <input className="field-input" id="profile-current-weight" type="number" min="0" step="0.1" inputMode="decimal" value={draft.currentWeight} onChange={(event) => updateField('currentWeight', event.target.value)} required aria-invalid={Boolean(errors.currentWeight)} aria-describedby={errors.currentWeight ? 'profile-current-weight-error' : undefined} />
           {errors.currentWeight && <span className="field-error" id="profile-current-weight-error">{errors.currentWeight}</span>}
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="profile-goal-weight">Goal weight ({draft.weightUnit})</label>
-          <input className="field-input" id="profile-goal-weight" type="number" min="0" step="0.1" inputMode="decimal" value={draft.goalWeight} onChange={(event) => updateField('goalWeight', event.target.value)} aria-invalid={Boolean(errors.goalWeight)} aria-describedby={errors.goalWeight ? 'profile-goal-weight-error' : undefined} />
+          <label className="field-label" data-required="true" htmlFor="profile-goal-weight">Goal weight ({draft.weightUnit})</label>
+          <input className="field-input" id="profile-goal-weight" type="number" min="0" step="0.1" inputMode="decimal" value={draft.goalWeight} onChange={(event) => updateField('goalWeight', event.target.value)} required aria-invalid={Boolean(errors.goalWeight)} aria-describedby={errors.goalWeight ? 'profile-goal-weight-error' : undefined} />
           {errors.goalWeight && <span className="field-error" id="profile-goal-weight-error">{errors.goalWeight}</span>}
         </div>
       </div>
@@ -416,8 +418,8 @@ function WeightChart({ entries, range, setRange, unit }: WeightChartProps) {
                 </linearGradient>
               </defs>
               <CartesianGrid vertical={false} stroke="#edf1eb" strokeDasharray="3 5" />
-              <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: '#8c9990', fontSize: 10 }} tickMargin={10} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#8c9990', fontSize: 10 }} />
+              <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: '#5f7066', fontSize: 10 }} tickMargin={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#5f7066', fontSize: 10 }} />
               <Tooltip content={({ active, payload, label }) => active && payload?.length ? (
                 <div className="chart-tooltip"><strong>{Number(payload[0].value).toFixed(1)} {unit}</strong>{label} - demo entry</div>
               ) : null} />
@@ -461,12 +463,12 @@ function WeightEntryForm({ addWeightEntry, unit }: Pick<HealthDataContextValue, 
   return (
     <form className="weight-entry-form" onSubmit={handleSubmit} noValidate>
       <div className="form-field">
-        <label className="field-label" htmlFor="new-weight">Weight ({unit})</label>
-        <input className="field-input" id="new-weight" type="number" min="0" step="0.1" inputMode="decimal" value={weight} onChange={(event) => { setWeight(event.target.value); setError(''); setStatus('') }} aria-invalid={Boolean(error)} aria-describedby={error ? 'new-weight-error' : undefined} />
+        <label className="field-label" data-required="true" htmlFor="new-weight">Weight ({unit})</label>
+        <input className="field-input" id="new-weight" type="number" min="0" step="0.1" inputMode="decimal" value={weight} onChange={(event) => { setWeight(event.target.value); setError(''); setStatus('') }} required aria-invalid={Boolean(error)} aria-describedby={error ? 'new-weight-error' : undefined} />
       </div>
       <div className="form-field">
-        <label className="field-label" htmlFor="new-weight-date">Measurement date</label>
-        <input className="field-input" id="new-weight-date" type="date" max={toIsoDate(new Date())} value={date} onChange={(event) => { setDate(event.target.value); setError(''); setStatus('') }} aria-invalid={Boolean(error)} aria-describedby={error ? 'new-weight-error' : undefined} />
+        <label className="field-label" data-required="true" htmlFor="new-weight-date">Measurement date</label>
+        <input className="field-input" id="new-weight-date" type="date" max={toIsoDate(new Date())} value={date} onChange={(event) => { setDate(event.target.value); setError(''); setStatus('') }} required aria-invalid={Boolean(error)} aria-describedby={error ? 'new-weight-error' : undefined} />
       </div>
       <Button className="primary-action" type="submit">Add entry</Button>
       {error && <span className="field-error form-message" id="new-weight-error" role="alert">{error}</span>}
@@ -504,15 +506,15 @@ function WeightEntryRow({ entry, unit, editWeightEntry, deleteWeightEntry }: Pic
           <form className="record-edit-form" onSubmit={handleSave}>
             <label>
               <span className="visually-hidden">Edit weight ({unit})</span>
-              <input className="field-input" type="number" min="0" step="0.1" value={weight} onChange={(event) => { setWeight(event.target.value); setError('') }} aria-invalid={Boolean(error)} />
+              <input className="field-input" type="number" min="0" step="0.1" value={weight} onChange={(event) => { setWeight(event.target.value); setError('') }} required aria-invalid={Boolean(error)} aria-describedby={error ? 'edit-weight-error' : undefined} />
             </label>
             <label>
               <span className="visually-hidden">Edit measurement date</span>
-              <input className="field-input" type="date" max={toIsoDate(new Date())} value={date} onChange={(event) => { setDate(event.target.value); setError('') }} aria-invalid={Boolean(error)} />
+              <input className="field-input" type="date" max={toIsoDate(new Date())} value={date} onChange={(event) => { setDate(event.target.value); setError('') }} required aria-invalid={Boolean(error)} aria-describedby={error ? 'edit-weight-error' : undefined} />
             </label>
             <Button className="primary-action" type="submit">Save</Button>
             <Button className="secondary-action" type="button" onClick={() => { setIsEditing(false); setError('') }}>Cancel</Button>
-            {error && <span className="field-error form-message" role="alert">{error}</span>}
+            {error && <span className="field-error form-message" id="edit-weight-error" role="alert">{error}</span>}
           </form>
         </td>
       </tr>
@@ -537,7 +539,7 @@ function WeightEntryRow({ entry, unit, editWeightEntry, deleteWeightEntry }: Pic
 
 function WeightHistoryTable({ entries, unit, editWeightEntry, deleteWeightEntry }: Pick<HealthDataContextValue, 'editWeightEntry' | 'deleteWeightEntry'> & { entries: WeightEntry[]; unit: WeightUnit }) {
   return (
-    <div className="table-scroll">
+    <div className="table-scroll" role="region" aria-label="Fictional weight entries in chronological order" tabIndex={0}>
       <table className="demo-data-table weight-table">
         <caption className="visually-hidden">Fictional weight entries in chronological order</caption>
         <thead><tr><th scope="col">Date</th><th scope="col">Weight</th><th scope="col">Actions</th></tr></thead>

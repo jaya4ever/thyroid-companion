@@ -6,6 +6,7 @@ import {
   activityTypes,
   distanceFromKilometers,
   filterActivityEntries,
+  formatActivityType,
   getActivityMinutesForPeriod,
   kilometersFromDistance,
 } from "../../health/activityUtils.js";
@@ -55,10 +56,6 @@ function formatDate(date: string): string {
   });
 }
 
-function formatActivityType(type: ActivityType): string {
-  return type.replace(/\b\w/g, (letter) => letter.toUpperCase());
-}
-
 function ActivityForm({
   entry,
   distanceUnit,
@@ -93,22 +90,22 @@ function ActivityForm({
     <form className="tracking-form" onSubmit={handleSubmit} noValidate>
       <div className="tracking-form-grid">
         <div className="form-field">
-          <label className="field-label" htmlFor="activity-date">Activity date</label>
-          <input className="field-input" id="activity-date" type="date" value={draft.date} onChange={(event) => updateField("date", event.target.value)} required />
+          <label className="field-label" data-required="true" htmlFor="activity-date">Activity date</label>
+          <input className="field-input" id="activity-date" type="date" value={draft.date} onChange={(event) => updateField("date", event.target.value)} required aria-invalid={Boolean(error && error.toLowerCase().includes("date"))} aria-describedby={error && error.toLowerCase().includes("date") ? "activity-form-error" : undefined} />
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="activity-type">Activity type</label>
-          <select className="field-input field-select" id="activity-type" value={draft.activityType} onChange={(event) => updateField("activityType", event.target.value as ActivityType)}>
+          <label className="field-label" data-required="true" htmlFor="activity-type">Activity type</label>
+          <select className="field-input field-select" id="activity-type" value={draft.activityType} onChange={(event) => updateField("activityType", event.target.value as ActivityType)} required aria-invalid={Boolean(error.includes("activity type"))} aria-describedby={error.includes("activity type") ? "activity-form-error" : undefined}>
             {activityTypes.map((type) => <option key={type} value={type}>{formatActivityType(type)}</option>)}
           </select>
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="activity-duration">Duration in minutes</label>
-          <input className="field-input" id="activity-duration" type="number" min="0" step="1" inputMode="numeric" value={draft.durationMinutes} onChange={(event) => updateField("durationMinutes", event.target.value)} required />
+          <label className="field-label" data-required="true" htmlFor="activity-duration">Duration in minutes</label>
+          <input className="field-input" id="activity-duration" type="number" min="0" step="1" inputMode="numeric" value={draft.durationMinutes} onChange={(event) => updateField("durationMinutes", event.target.value)} required aria-invalid={Boolean(error.includes("duration"))} aria-describedby={error.includes("duration") ? "activity-form-error" : undefined} />
         </div>
         <div className="form-field">
           <label className="field-label" htmlFor="activity-distance">Distance (optional)</label>
-          <input className="field-input" id="activity-distance" type="number" min="0" step="any" inputMode="decimal" value={draft.distance} onChange={(event) => updateField("distance", event.target.value)} />
+          <input className="field-input" id="activity-distance" type="number" min="0" step="any" inputMode="decimal" value={draft.distance} onChange={(event) => updateField("distance", event.target.value)} aria-invalid={Boolean(error.includes("distance"))} aria-describedby={error.includes("distance") ? "activity-form-error" : undefined} />
         </div>
         <div className="form-field">
           <label className="field-label" htmlFor="activity-distance-unit">Distance unit</label>
@@ -122,7 +119,7 @@ function ActivityForm({
           <textarea className="field-input tracking-notes" id="activity-notes" rows={3} value={draft.notes} onChange={(event) => updateField("notes", event.target.value)} />
         </div>
       </div>
-      {error && <p className="field-error" role="alert">{error}</p>}
+      {error && <p className="field-error" id="activity-form-error" role="alert">{error}</p>}
       <div className="form-actions">
         <Button className="primary-action" type="submit">{entry ? "Save activity" : "Add activity"}</Button>
         {onCancel && <Button className="secondary-action" type="button" variant="outline" onClick={onCancel}>Cancel</Button>}
@@ -241,7 +238,7 @@ function ActivityPage() {
             </div>
           </div>
           {visibleEntries.length > 0 ? (
-            <div className="table-scroll">
+            <div className="table-scroll" role="region" aria-label="Recorded activity history" tabIndex={0}>
               <table className="demo-data-table activity-history-table">
                 <caption className="visually-hidden">Recorded activity history</caption>
                 <thead><tr><th scope="col">Date</th><th scope="col">Activity</th><th scope="col">Duration</th><th scope="col">Distance</th><th scope="col">Actions</th></tr></thead>

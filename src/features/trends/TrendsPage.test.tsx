@@ -85,6 +85,9 @@ describe("symptom trends", () => {
     expect(within(energyChart).getByText("1")).toBeTruthy();
     expect(within(energyChart).getByText("5")).toBeTruthy();
     expect(screen.getByRole("table", { name: "Energy by date; values use Rating (1–5)" })).toBeTruthy();
+    const trendTableRegion = screen.getByRole("region", { name: "Energy trend data table" });
+    expect(trendTableRegion.tabIndex).toBe(0);
+    expect(within(trendTableRegion).getByRole("table", { name: "Energy by date; values use Rating (1–5)" })).toBeTruthy();
     await user.selectOptions(screen.getByLabelText("Symptom area"), "sleepQuality");
     expect(screen.getByRole("img", { name: "Sleep quality by date, measured in Rating (1–5)" })).toBeTruthy();
     expect(screen.getByRole("table", { name: "Sleep quality by date; values use Rating (1–5)" })).toBeTruthy();

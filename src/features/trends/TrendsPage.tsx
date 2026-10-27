@@ -75,8 +75,8 @@ function TrendChartPanel({
             <ResponsiveContainer width="100%" height="100%">
               <LineChart accessibilityLayer data={chartData} margin={{ top: 8, right: 20, bottom: 0, left: 8 }}>
                 <CartesianGrid vertical={false} stroke="#edf1eb" strokeDasharray="3 5" />
-                <XAxis dataKey="date" interval="preserveStartEnd" minTickGap={20} tickFormatter={formatTrendDate} axisLine={false} tickLine={false} tick={{ fill: "#8c9990", fontSize: 10 }} tickMargin={10} />
-                <YAxis domain={minimum === 1 ? [1, 5] : [minimum, "auto"]} ticks={minimum === 1 ? [1, 2, 3, 4, 5] : undefined} allowDataOverflow={minimum === 1} axisLine={false} tickLine={false} tick={{ fill: "#8c9990", fontSize: 10 }} label={{ value: unit, angle: -90, position: "insideLeft" }} />
+                <XAxis dataKey="date" interval="preserveStartEnd" minTickGap={20} tickFormatter={formatTrendDate} axisLine={false} tickLine={false} tick={{ fill: "#5f7066", fontSize: 10 }} tickMargin={10} />
+                <YAxis domain={minimum === 1 ? [1, 5] : [minimum, "auto"]} ticks={minimum === 1 ? [1, 2, 3, 4, 5] : undefined} allowDataOverflow={minimum === 1} axisLine={false} tickLine={false} tick={{ fill: "#5f7066", fontSize: 10 }} label={{ value: unit, angle: -90, position: "insideLeft" }} />
                 <Tooltip labelFormatter={(value) => formatTrendDate(String(value))} formatter={(value) => [`${value} ${unit}`, title]} />
                 <Line dataKey="value" name={title} type="linear" connectNulls={false} stroke="#4f866f" strokeWidth={2.5} dot={{ r: 4, fill: "#4f866f" }} activeDot={{ r: 6, fill: "#28695d", stroke: "#fff", strokeWidth: 2 }} />
               </LineChart>
@@ -88,7 +88,7 @@ function TrendChartPanel({
           </div>
         )}
         {values.length > 0 && (
-          <div className="table-scroll">
+          <div className="table-scroll" role="region" aria-label={`${title} trend data table`} tabIndex={0}>
             <table className="demo-data-table tracking-trend-table">
               <caption className="visually-hidden">{title} by date; values use {unit}</caption>
               <thead><tr><th scope="col">Date</th><th scope="col">Value ({unit})</th></tr></thead>

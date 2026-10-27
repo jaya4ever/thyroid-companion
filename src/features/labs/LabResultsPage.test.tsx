@@ -59,6 +59,28 @@ afterEach(() => {
 });
 
 describe("lab results page", () => {
+  it("associates an inverted reference range error with both range fields", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<LabResultsPage />);
+
+    await user.type(screen.getByLabelText("Measurement"), "2");
+    await user.type(screen.getByLabelText("Reference minimum (optional)"), "5");
+    await user.type(screen.getByLabelText("Reference maximum (optional)"), "1");
+    await user.click(screen.getByRole("button", { name: "Save result" }));
+
+    expect(screen.getByRole("alert").textContent).toContain("must not exceed");
+    expect(screen.getByLabelText("Reference minimum (optional)").getAttribute("aria-invalid")).toBe("true");
+    expect(screen.getByLabelText("Reference maximum (optional)").getAttribute("aria-describedby")).toBe("lab-form-error");
+  });
+
+  it("exposes saved results in a named keyboard-scrollable region", () => {
+    renderWithProviders(<LabResultsPage />);
+
+    const tableRegion = screen.getByRole("region", { name: "Saved fictional thyroid lab results" });
+    expect(tableRegion.tabIndex).toBe(0);
+    expect(within(tableRegion).getByRole("table", { name: "Saved fictional thyroid lab results" })).toBeTruthy();
+  });
+
   it("adds a result and updates the dashboard count and recent value", async () => {
     const user = userEvent.setup();
     renderWithProviders(<DashboardAndLabs />);
@@ -171,7 +193,7 @@ describe("lab results page", () => {
     renderWithProviders(<AppRoutes />);
 
     await user.click(screen.getByRole("link", { name: "Lab results" }));
-    expect(screen.getByRole("heading", { name: "Lab results", level: 1 })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: "Lab results", level: 1 })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Add a lab result" })).toBeTruthy();
   });
 });

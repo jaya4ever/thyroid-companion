@@ -130,18 +130,18 @@ function NutritionForm({
     <form className="tracking-form" onSubmit={handleSubmit} noValidate>
       <div className="tracking-form-grid">
         <div className="form-field">
-          <label className="field-label" htmlFor="nutrition-date">Entry date</label>
-          <input className="field-input" id="nutrition-date" type="date" value={draft.date} onChange={(event) => updateField("date", event.target.value)} required />
+          <label className="field-label" data-required="true" htmlFor="nutrition-date">Entry date</label>
+          <input className="field-input" id="nutrition-date" type="date" value={draft.date} onChange={(event) => updateField("date", event.target.value)} required aria-invalid={Boolean(error && error.toLowerCase().includes("date"))} aria-describedby={error && error.toLowerCase().includes("date") ? "nutrition-form-error" : undefined} />
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="nutrition-meal">Meal category</label>
-          <select className="field-input field-select" id="nutrition-meal" value={draft.mealCategory} onChange={(event) => updateField("mealCategory", event.target.value as MealCategory)}>
+          <label className="field-label" data-required="true" htmlFor="nutrition-meal">Meal category</label>
+          <select className="field-input field-select" id="nutrition-meal" value={draft.mealCategory} onChange={(event) => updateField("mealCategory", event.target.value as MealCategory)} required aria-invalid={Boolean(error.includes("meal category"))} aria-describedby={error.includes("meal category") ? "nutrition-form-error" : undefined}>
             {mealCategories.map((meal) => <option key={meal} value={meal}>{meal[0].toUpperCase() + meal.slice(1)}</option>)}
           </select>
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="nutrition-food">Food name</label>
-          <input className="field-input" id="nutrition-food" value={draft.foodName} onChange={(event) => updateField("foodName", event.target.value)} required />
+          <label className="field-label" data-required="true" htmlFor="nutrition-food">Food name</label>
+          <input className="field-input" id="nutrition-food" value={draft.foodName} onChange={(event) => updateField("foodName", event.target.value)} required aria-invalid={Boolean(error.includes("food name"))} aria-describedby={error.includes("food name") ? "nutrition-form-error" : undefined} />
         </div>
         <div className="form-field">
           <label className="field-label" htmlFor="nutrition-serving">Serving description (optional)</label>
@@ -149,26 +149,26 @@ function NutritionForm({
         </div>
         <div className="form-field">
           <label className="field-label" htmlFor="nutrition-calories">Calories (optional)</label>
-          <input className="field-input" id="nutrition-calories" type="number" min="0" step="any" inputMode="decimal" value={draft.calories} onChange={(event) => updateField("calories", event.target.value)} />
+          <input className="field-input" id="nutrition-calories" type="number" min="0" step="any" inputMode="decimal" value={draft.calories} onChange={(event) => updateField("calories", event.target.value)} aria-invalid={Boolean(error.includes("calories"))} aria-describedby={error.includes("calories") ? "nutrition-form-error" : undefined} />
         </div>
         <div className="form-field">
           <label className="field-label" htmlFor="nutrition-protein">Protein in grams (optional)</label>
-          <input className="field-input" id="nutrition-protein" type="number" min="0" step="any" inputMode="decimal" value={draft.proteinGrams} onChange={(event) => updateField("proteinGrams", event.target.value)} />
+          <input className="field-input" id="nutrition-protein" type="number" min="0" step="any" inputMode="decimal" value={draft.proteinGrams} onChange={(event) => updateField("proteinGrams", event.target.value)} aria-invalid={Boolean(error.includes("protein"))} aria-describedby={error.includes("protein") ? "nutrition-form-error" : undefined} />
         </div>
         <div className="form-field">
           <label className="field-label" htmlFor="nutrition-carbohydrates">Carbohydrates in grams (optional)</label>
-          <input className="field-input" id="nutrition-carbohydrates" type="number" min="0" step="any" inputMode="decimal" value={draft.carbohydratesGrams} onChange={(event) => updateField("carbohydratesGrams", event.target.value)} />
+          <input className="field-input" id="nutrition-carbohydrates" type="number" min="0" step="any" inputMode="decimal" value={draft.carbohydratesGrams} onChange={(event) => updateField("carbohydratesGrams", event.target.value)} aria-invalid={Boolean(error.includes("carbohydrates"))} aria-describedby={error.includes("carbohydrates") ? "nutrition-form-error" : undefined} />
         </div>
         <div className="form-field">
           <label className="field-label" htmlFor="nutrition-fat">Fat in grams (optional)</label>
-          <input className="field-input" id="nutrition-fat" type="number" min="0" step="any" inputMode="decimal" value={draft.fatGrams} onChange={(event) => updateField("fatGrams", event.target.value)} />
+          <input className="field-input" id="nutrition-fat" type="number" min="0" step="any" inputMode="decimal" value={draft.fatGrams} onChange={(event) => updateField("fatGrams", event.target.value)} aria-invalid={Boolean(error.includes("fat"))} aria-describedby={error.includes("fat") ? "nutrition-form-error" : undefined} />
         </div>
         <div className="form-field form-field-wide">
           <label className="field-label" htmlFor="nutrition-notes">Notes (optional)</label>
           <textarea className="field-input tracking-notes" id="nutrition-notes" rows={3} value={draft.notes} onChange={(event) => updateField("notes", event.target.value)} />
         </div>
       </div>
-      {error && <p className="field-error" role="alert">{error}</p>}
+      {error && <p className="field-error" id="nutrition-form-error" role="alert">{error}</p>}
       <div className="form-actions">
         <Button className="primary-action" type="submit">{entry ? "Save food entry" : "Add food entry"}</Button>
         {onCancel && <Button className="secondary-action" type="button" variant="outline" onClick={onCancel}>Cancel</Button>}
@@ -205,23 +205,23 @@ function HydrationForm({
   return (
     <form className="tracking-form hydration-form" onSubmit={handleSubmit} noValidate>
       <div className="form-field">
-        <label className="field-label" htmlFor="hydration-date">Intake date</label>
-        <input className="field-input" id="hydration-date" type="date" value={draft.date} onChange={(event) => { setDraft((current) => ({ ...current, date: event.target.value })); setError(""); }} required />
+        <label className="field-label" data-required="true" htmlFor="hydration-date">Intake date</label>
+        <input className="field-input" id="hydration-date" type="date" value={draft.date} onChange={(event) => { setDraft((current) => ({ ...current, date: event.target.value })); setError(""); }} required aria-invalid={Boolean(error && error.toLowerCase().includes("date"))} aria-describedby={error && error.toLowerCase().includes("date") ? "hydration-form-error" : undefined} />
       </div>
       <div className="hydration-amount-row">
         <div className="form-field">
-          <label className="field-label" htmlFor="hydration-amount">Water amount</label>
-          <input className="field-input" id="hydration-amount" type="number" min="0" step="any" inputMode="decimal" value={draft.amount} onChange={(event) => { setDraft((current) => ({ ...current, amount: event.target.value })); setError(""); }} required />
+          <label className="field-label" data-required="true" htmlFor="hydration-amount">Water amount</label>
+          <input className="field-input" id="hydration-amount" type="number" min="0" step="any" inputMode="decimal" value={draft.amount} onChange={(event) => { setDraft((current) => ({ ...current, amount: event.target.value })); setError(""); }} required aria-invalid={Boolean(error && error.toLowerCase().includes("amount"))} aria-describedby={error && error.toLowerCase().includes("amount") ? "hydration-form-error" : undefined} />
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="hydration-unit">Unit</label>
-          <select className="field-input field-select" id="hydration-unit" value={draft.unit} onChange={(event) => { setDraft((current) => ({ ...current, unit: event.target.value as HydrationUnit })); setError(""); }}>
+          <label className="field-label" data-required="true" htmlFor="hydration-unit">Unit</label>
+          <select className="field-input field-select" id="hydration-unit" value={draft.unit} onChange={(event) => { setDraft((current) => ({ ...current, unit: event.target.value as HydrationUnit })); setError(""); }} required>
             <option value="ml">Milliliters (mL)</option>
             <option value="fl-oz">US fluid ounces (fl oz)</option>
           </select>
         </div>
       </div>
-      {error && <p className="field-error" role="alert">{error}</p>}
+      {error && <p className="field-error" id="hydration-form-error" role="alert">{error}</p>}
       <div className="form-actions">
         <Button className="primary-action" type="submit">{entry ? "Save water entry" : "Add water entry"}</Button>
         {onCancel && <Button className="secondary-action" type="button" variant="outline" onClick={onCancel}>Cancel</Button>}

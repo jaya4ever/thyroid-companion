@@ -44,6 +44,14 @@ afterEach(() => {
 });
 
 describe("activity page", () => {
+  it("exposes the horizontally scrollable history table as a keyboard region", () => {
+    renderWithProviders(<ActivityPage />);
+
+    const tableRegion = screen.getByRole("region", { name: "Recorded activity history" });
+    expect(tableRegion.tabIndex).toBe(0);
+    expect(within(tableRegion).getByRole("table", { name: "Recorded activity history" })).toBeTruthy();
+  });
+
   it("shows the current local date in the overview header", () => {
     renderWithProviders(<DashboardPage />);
 
@@ -88,6 +96,8 @@ describe("activity page", () => {
 
     await user.click(screen.getByRole("button", { name: "Add activity" }));
     expect(screen.getByRole("alert").textContent).toContain("duration greater than zero");
+    expect(screen.getByLabelText("Duration in minutes").getAttribute("aria-invalid")).toBe("true");
+    expect(screen.getByLabelText("Duration in minutes").getAttribute("aria-describedby")).toBe("activity-form-error");
     await user.type(screen.getByLabelText("Duration in minutes"), "30");
     await user.type(screen.getByLabelText("Distance (optional)"), "0");
     await user.click(screen.getByRole("button", { name: "Add activity" }));
@@ -140,9 +150,9 @@ describe("activity page", () => {
     renderWithProviders(<AppRoutes />);
 
     await user.click(screen.getByRole("link", { name: "Nutrition" }));
-    expect(screen.getByRole("heading", { name: "Nutrition", level: 1 })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: "Nutrition", level: 1 })).toBeTruthy();
     await user.click(screen.getByRole("link", { name: "Activity" }));
-    expect(screen.getByRole("heading", { name: "Activity", level: 1 })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: "Activity", level: 1 })).toBeTruthy();
   });
 
   it("opens Nutrition and Activity through the existing navigation", async () => {
@@ -150,8 +160,8 @@ describe("activity page", () => {
     renderWithProviders(<AppRoutes />);
 
     await user.click(screen.getByRole("link", { name: "Nutrition" }));
-    expect(screen.getByRole("heading", { name: "Nutrition", level: 1 })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: "Nutrition", level: 1 })).toBeTruthy();
     await user.click(screen.getByRole("link", { name: "Activity" }));
-    expect(screen.getByRole("heading", { name: "Activity", level: 1 })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: "Activity", level: 1 })).toBeTruthy();
   });
 });

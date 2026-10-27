@@ -2,7 +2,7 @@
 
 :root {
   --ink: #263b32;
-  --muted: #718078;
+  --muted: #5f7066;
   --deep-teal: #28695d;
   --line: #e3e9e1;
   --body-font: 'DM Sans', 'Avenir Next', sans-serif;
@@ -107,7 +107,7 @@ button {
 }
 
 .nav-label {
-  color: #87948c;
+  color: #5f7066;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.2px;
@@ -126,7 +126,7 @@ button {
 .nav-link {
   align-items: center;
   border-radius: 10px;
-  color: #64736b;
+  color: #53665b;
   display: flex;
   font-size: 13px;
   font-weight: 600;
@@ -325,7 +325,7 @@ button {
 }
 
 .metric-detail {
-  color: #87948c;
+  color: #5f7066;
   font-size: 10px;
   margin-top: 5px;
 }
@@ -417,7 +417,7 @@ button {
 }
 
 .lab-date {
-  color: #8b9790;
+  color: #5f7066;
   display: block;
   font-size: 9px;
   margin-top: 3px;
@@ -432,7 +432,7 @@ button {
 }
 
 .lab-unit {
-  color: #89948e;
+  color: #5f7066;
   display: block;
   font-family: var(--body-font);
   font-size: 9px;
@@ -495,7 +495,7 @@ button {
 }
 
 .medication-dose {
-  color: #79867e;
+  color: #5f7066;
   display: block;
   font-size: 9px;
   margin-top: 4px;
@@ -586,7 +586,7 @@ button {
 }
 
 .symptom-note {
-  color: #7d8b82;
+  color: #5f7066;
   font-size: 10px;
   min-height: 15px;
 }
@@ -671,7 +671,7 @@ button {
 }
 
 .demo-data-table th {
-  color: #78867d;
+  color: #5f7066;
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
@@ -739,6 +739,13 @@ button {
   font-weight: 700;
 }
 
+.field-label[data-required="true"]::after {
+  color: #5f7066;
+  content: " *";
+  font-size: 10px;
+  font-weight: 500;
+}
+
 .field-input {
   appearance: none;
   background: #fff;
@@ -796,7 +803,7 @@ button {
 }
 
 .field-hint {
-  color: #7d8b82;
+  color: #5f7066;
   font-size: 10px;
   line-height: 1.5;
   margin: 0;
@@ -883,7 +890,7 @@ button {
 }
 
 .profile-details dt {
-  color: #7a8880;
+  color: #5f7066;
   font-size: 10px;
 }
 
@@ -920,7 +927,7 @@ button {
 }
 
 .bmi-explanation {
-  color: #66766d;
+  color: #5f7066;
   font-size: 10px;
   line-height: 1.6;
   margin: 0;
@@ -951,7 +958,7 @@ button {
 }
 
 .goal-difference {
-  color: #68796e;
+  color: #5f7066;
   font-size: 10px;
   line-height: 1.4;
   margin: 0;
@@ -997,7 +1004,7 @@ button {
   background: #fff;
   border: 1px solid transparent;
   border-radius: 7px;
-  color: #64736b;
+  color: #53665b;
   cursor: pointer;
   font: inherit;
   font-size: 10px;
@@ -1025,7 +1032,7 @@ button {
   background: #f7f9f6;
   border: 1px dashed #dce5dc;
   border-radius: 8px;
-  color: #718078;
+  color: #5f7066;
   font-size: 11px;
   line-height: 1.6;
   margin: 14px 0;
@@ -1089,7 +1096,7 @@ button {
 }
 
 .temporary-data-note {
-  color: #718078;
+  color: #5f7066;
   font-size: 10px;
   line-height: 1.6;
   margin: 17px 0 0;
@@ -2091,7 +2098,7 @@ button {
 }
 
 .daily-tracking-grid dt {
-  color: #7a8880;
+  color: #5f7066;
   font-size: 10px;
 }
 
@@ -2145,7 +2152,7 @@ button {
 }
 
 .nutrition-totals-grid dt {
-  color: #7a8880;
+  color: #5f7066;
   font-size: 10px;
 }
 
@@ -2176,7 +2183,7 @@ button {
 }
 
 .nutrition-meal-group>h4 {
-  color: #78867d;
+  color: #5f7066;
   font-size: 10px;
   font-weight: 700;
   margin: 0;
@@ -2191,7 +2198,7 @@ button {
 }
 
 .nutrition-record-values {
-  color: #64736b;
+  color: #53665b;
   display: flex;
   flex-wrap: wrap;
   font-size: 9px;
@@ -2278,7 +2285,7 @@ button {
 }
 
 .activity-period-summary dt {
-  color: #7a8880;
+  color: #5f7066;
   font-size: 10px;
 }
 
@@ -2397,7 +2404,7 @@ button {
 }
 
 .daily-tracking-grid dt {
-  color: #7a8880;
+  color: #5f7066;
   font-size: 10px;
 }
 
@@ -2450,7 +2457,7 @@ button {
 }
 
 .nutrition-totals-grid dt {
-  color: #7a8880;
+  color: #5f7066;
   font-size: 10px;
 }
 
@@ -2481,7 +2488,7 @@ button {
 }
 
 .nutrition-meal-group>h4 {
-  color: #78867d;
+  color: #5f7066;
   font-size: 10px;
   font-weight: 700;
   margin: 0;
@@ -2496,7 +2503,7 @@ button {
 }
 
 .nutrition-record-values {
-  color: #64736b;
+  color: #53665b;
   display: flex;
   flex-wrap: wrap;
   font-size: 9px;
@@ -2583,7 +2590,7 @@ button {
 }
 
 .activity-period-summary dt {
-  color: #7a8880;
+  color: #5f7066;
   font-size: 10px;
 }
 

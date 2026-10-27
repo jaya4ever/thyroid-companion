@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 import { Button } from "@chakra-ui/react";
 import { Download } from "lucide-react";
 import { useHealthData } from "../../context/useHealthData.js";
-import { calculateAge, toIsoDate } from "../../health/healthUtils.js";
+import { formatActivityType } from "../../health/activityUtils.js";
+import { calculateAge, isValidIsoDate, toIsoDate } from "../../health/healthUtils.js";
 import {
   buildHealthReport,
   getPresetReportDateRange,
@@ -64,7 +65,7 @@ function ReportTable({
   rows: string[][];
 }) {
   return (
-    <div className="table-scroll report-table-scroll">
+    <div className="table-scroll report-table-scroll" role="region" aria-label={caption} tabIndex={0}>
       <table className="demo-data-table report-data-table">
         <caption>{caption}</caption>
         <thead><tr>{headers.map((header) => <th scope="col" key={header}>{header}</th>)}</tr></thead>
@@ -108,6 +109,8 @@ function ReportsPage() {
   const [exportError, setExportError] = useState("");
   const dateRange = rangePreset === "custom" ? customRange : getPresetReportDateRange(rangePreset, today);
   const rangeError = validateReportDateRange(dateRange, today);
+  const startDateInvalid = rangePreset === "custom" && (!isValidIsoDate(customRange.startDate) || customRange.startDate > customRange.endDate);
+  const endDateInvalid = rangePreset === "custom" && (!isValidIsoDate(customRange.endDate) || customRange.endDate > todayString || customRange.startDate > customRange.endDate);
   const report = buildHealthReport({
     profile,
     weightEntries,
@@ -188,34 +191,40 @@ function ReportsPage() {
           {rangePreset === "custom" && (
             <>
               <div className="form-field">
-                <label className="field-label" htmlFor="report-start-date">Start date</label>
+                <label className="field-label" data-required="true" htmlFor="report-start-date">Start date</label>
                 <input
                   className="field-input"
                   id="report-start-date"
                   type="date"
                   max={todayString}
+                  required
                   value={customRange.startDate}
                   onChange={(event) => setCustomRange((current) => ({ ...current, startDate: event.target.value }))}
+                  aria-invalid={startDateInvalid}
+                  aria-describedby={startDateInvalid ? "report-date-error" : undefined}
                 />
               </div>
               <div className="form-field">
-                <label className="field-label" htmlFor="report-end-date">End date</label>
+                <label className="field-label" data-required="true" htmlFor="report-end-date">End date</label>
                 <input
                   className="field-input"
                   id="report-end-date"
                   type="date"
                   max={todayString}
+                  required
                   value={customRange.endDate}
                   onChange={(event) => setCustomRange((current) => ({ ...current, endDate: event.target.value }))}
+                  aria-invalid={endDateInvalid}
+                  aria-describedby={endDateInvalid ? "report-date-error" : undefined}
                 />
               </div>
             </>
           )}
         </div>
-        {rangeError && <p className="field-error" role="alert">{rangeError}</p>}
+        {rangeError && <p className="field-error" id="report-date-error" role="alert">{rangeError}</p>}
 
-        <fieldset className="report-section-picker">
-          <legend className="field-label">Sections to include</legend>
+        <fieldset className="report-section-picker" aria-required="true" aria-invalid={selectedSections.length === 0} aria-describedby={selectedSections.length === 0 ? "report-sections-error" : undefined}>
+          <legend className="field-label" data-required="true">Sections to include</legend>
           <div className="report-section-options">
             {reportSections.map(({ id, label }) => (
               <label className="report-section-option" key={id}>
@@ -229,12 +238,13 @@ function ReportsPage() {
             ))}
           </div>
         </fieldset>
-        {selectedSections.length === 0 && <p className="field-error" role="alert">Select at least one report section.</p>}
+        {selectedSections.length === 0 && <p className="field-error" id="report-sections-error" role="alert">Select at least one report section.</p>}
         {exportError && <p className="field-error" role="alert">{exportError}</p>}
         <p className="report-disclaimer" role="note">{disclaimer}. This summary is for discussion only and does not provide diagnoses or treatment recommendations.</p>
       </section>
 
-      <section className="panel report-preview" aria-labelledby="report-preview-title" aria-live="polite">
+      <section className="panel report-preview" aria-labelledby="report-preview-title">
+        <p className="visually-hidden" role="status">{selectedSections.length === 0 ? "No report sections selected." : `Report preview includes ${selectedSections.length} sections from ${formatDate(dateRange.startDate)} to ${formatDate(dateRange.endDate)}.`}</p>
         <div className="panel-heading">
           <div>
             <h2 className="panel-title" id="report-preview-title">Report preview</h2>
@@ -360,7 +370,7 @@ function ReportsPage() {
                   caption="Recorded activity entries"
                   headers={["Date", "Activity", "Duration", "Distance"]}
                   rows={report.activityEntries.map((entry) => [
-                    formatDate(entry.date), entry.activityType, `${entry.durationMinutes} min`,
+                    formatDate(entry.date), formatActivityType(entry.activityType), `${entry.durationMinutes} min`,
                     entry.distanceKm === undefined ? "Not recorded" : `${entry.distanceKm} km`,
                   ])}
                 />

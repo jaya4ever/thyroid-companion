@@ -143,11 +143,14 @@ function LabResultForm({
     <form className="lab-form" onSubmit={handleSubmit} noValidate>
       <div className="lab-form-grid">
         <div className="form-field">
-          <label className="field-label" htmlFor="lab-test-type">Test type</label>
+          <label className="field-label" data-required="true" htmlFor="lab-test-type">Test type</label>
           <select
             className="field-input field-select"
             id="lab-test-type"
             value={draft.testType}
+            required
+            aria-invalid={Boolean(error && error.includes("test type"))}
+            aria-describedby={error && error.includes("test type") ? "lab-form-error" : undefined}
             onChange={(event) => {
               const nextTest = event.target.value
               const nextOption = getLabTestOption(nextTest)
@@ -164,7 +167,7 @@ function LabResultForm({
           <span className="field-hint">{selectedTest.description}</span>
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="lab-date">Measurement date</label>
+          <label className="field-label" data-required="true" htmlFor="lab-date">Measurement date</label>
           <input
             className="field-input"
             id="lab-date"
@@ -172,11 +175,13 @@ function LabResultForm({
             max={toIsoDate(new Date())}
             value={draft.date}
             onChange={(event) => updateField('date', event.target.value)}
+            required
             aria-invalid={Boolean(error && error.includes('date'))}
+            aria-describedby={error && error.includes('date') ? "lab-form-error" : undefined}
           />
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="lab-value">Measurement</label>
+          <label className="field-label" data-required="true" htmlFor="lab-value">Measurement</label>
           <input
             className="field-input"
             id="lab-value"
@@ -185,15 +190,20 @@ function LabResultForm({
             inputMode="decimal"
             value={draft.value}
             onChange={(event) => updateField('value', event.target.value)}
+            required
             aria-invalid={Boolean(error && (error.includes('numeric') || error.includes('measurement')))}
+            aria-describedby={error && (error.includes('numeric') || error.includes('measurement')) ? "lab-form-error" : undefined}
           />
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="lab-unit">Unit</label>
+          <label className="field-label" data-required="true" htmlFor="lab-unit">Unit</label>
           <select
             className="field-input field-select"
             id="lab-unit"
             value={draft.unit}
+            required
+            aria-invalid={Boolean(error && error.includes('unit'))}
+            aria-describedby={error && error.includes('unit') ? "lab-form-error" : undefined}
             onChange={(event) => updateField('unit', event.target.value)}
           >
             {selectedTest.units.map((unit) => <option key={unit} value={unit}>{unit}</option>)}
@@ -209,6 +219,8 @@ function LabResultForm({
             inputMode="decimal"
             value={draft.referenceMin}
             onChange={(event) => updateField('referenceMin', event.target.value)}
+            aria-invalid={Boolean(error && (error.includes('minimum reference') || error.includes('must not exceed')))}
+            aria-describedby={error && (error.includes('minimum reference') || error.includes('must not exceed')) ? "lab-form-error" : undefined}
           />
         </div>
         <div className="form-field">
@@ -221,6 +233,8 @@ function LabResultForm({
             inputMode="decimal"
             value={draft.referenceMax}
             onChange={(event) => updateField('referenceMax', event.target.value)}
+            aria-invalid={Boolean(error && (error.includes('maximum reference') || error.includes('must not exceed')))}
+            aria-describedby={error && (error.includes('maximum reference') || error.includes('must not exceed')) ? "lab-form-error" : undefined}
           />
         </div>
         <div className="form-field">
@@ -243,7 +257,7 @@ function LabResultForm({
           />
         </div>
       </div>
-      {error && <p className="field-error" role="alert">{error}</p>}
+      {error && <p className="field-error" id="lab-form-error" role="alert">{error}</p>}
       <div className="form-actions">
         <Button className="primary-action" type="submit">Save result</Button>
         {onCancel && <Button className="secondary-action" type="button" variant="outline" onClick={onCancel}>Cancel</Button>}
@@ -325,10 +339,10 @@ function LabTrendChart({ results }: { results: LabResult[] }) {
                   tickFormatter={(date: number) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: '#8c9990', fontSize: 10 }}
+                  tick={{ fill: '#5f7066', fontSize: 10 }}
                   tickMargin={10}
                 />
-                <YAxis domain={[0, 'auto']} axisLine={false} tickLine={false} tick={{ fill: '#8c9990', fontSize: 10 }} label={{ value: selectedUnit, angle: -90, position: 'insideLeft' }} />
+                <YAxis domain={[0, 'auto']} axisLine={false} tickLine={false} tick={{ fill: '#5f7066', fontSize: 10 }} label={{ value: selectedUnit, angle: -90, position: 'insideLeft' }} />
                 <Tooltip
                   labelFormatter={(date) => new Date(Number(date)).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                   formatter={(value) => [`${value} ${selectedUnit}`, 'Result']}
@@ -337,7 +351,7 @@ function LabTrendChart({ results }: { results: LabResult[] }) {
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <div className="table-scroll">
+          <div className="table-scroll" role="region" aria-label={`Chart values for ${testType} in ${selectedUnit}`} tabIndex={0}>
             <table className="demo-data-table lab-chart-table">
               <caption className="visually-hidden">Chart values for {testType} in {selectedUnit}</caption>
               <thead><tr><th scope="col">Date</th><th scope="col">Result</th></tr></thead>
@@ -436,7 +450,7 @@ function LabResultsPage() {
             </div>
           </div>
           {visibleResults.length > 0 ? (
-            <div className="table-scroll">
+            <div className="table-scroll" role="region" aria-label="Saved fictional thyroid lab results" tabIndex={0}>
               <table className="demo-data-table lab-results-table">
                 <caption className="visually-hidden">Saved fictional thyroid lab results</caption>
                 <thead><tr><th scope="col">Test and date</th><th scope="col">Result</th><th scope="col">Reference</th><th scope="col">Actions</th></tr></thead>

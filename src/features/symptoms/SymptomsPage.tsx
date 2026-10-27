@@ -94,15 +94,17 @@ function RatingInput({
   field,
   value,
   onChange,
+  error,
 }: {
   field: (typeof symptomRatingFields)[number];
   value: number | null;
   onChange: (rating: SymptomRating) => void;
+  error: string;
 }) {
   const groupId = `symptom-rating-${field.key}`;
   return (
     <fieldset className="symptom-rating-field">
-      <legend className="field-label">{field.label}</legend>
+      <legend className="field-label" data-required="true">{field.label}</legend>
       <div className="rating-endpoints" aria-hidden="true">
         <span>1 · {field.lowLabel}</span>
         <span>5 · {field.highLabel}</span>
@@ -111,6 +113,9 @@ function RatingInput({
         className="rating-options"
         role="radiogroup"
         aria-label={`${field.label}, from 1 ${field.lowLabel.toLocaleLowerCase()} to 5 ${field.highLabel.toLocaleLowerCase()}`}
+        aria-required="true"
+        aria-invalid={Boolean(error && error.includes(field.label.toLocaleLowerCase()))}
+        aria-describedby={error && error.includes(field.label.toLocaleLowerCase()) ? "symptom-form-error" : undefined}
       >
         {[1, 2, 3, 4, 5].map((rating) => (
           <label className="rating-option" key={rating}>
@@ -166,7 +171,7 @@ function SymptomForm({
   return (
     <form className="tracking-form symptom-form" onSubmit={handleSubmit} noValidate>
       <div className="form-field">
-        <label className="field-label" htmlFor="symptom-datetime">
+        <label className="field-label" data-required="true" htmlFor="symptom-datetime">
           Date and time
         </label>
         <input
@@ -178,7 +183,8 @@ function SymptomForm({
             setDraft((current) => ({ ...current, occurredAt: event.target.value }));
             setError("");
           }}
-          aria-invalid={Boolean(error && error.includes("time"))}
+          aria-invalid={Boolean(error && (error.includes("time") || error.includes("date")))}
+          aria-describedby={error ? "symptom-form-error" : undefined}
           required
         />
       </div>
@@ -189,11 +195,12 @@ function SymptomForm({
             field={field}
             value={draft[field.key]}
             onChange={(rating) => setRating(field.key, rating)}
+            error={error}
           />
         ))}
       </div>
       <div className="form-field">
-        <label className="field-label" htmlFor="symptom-notes">
+          <label className="field-label" htmlFor="symptom-notes">
           Notes (optional)
         </label>
         <textarea
@@ -208,7 +215,7 @@ function SymptomForm({
         />
       </div>
       {error && (
-        <p className="field-error" role="alert">
+          <p className="field-error" id="symptom-form-error" role="alert">
           {error}
         </p>
       )}

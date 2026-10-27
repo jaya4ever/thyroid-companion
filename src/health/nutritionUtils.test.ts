@@ -39,7 +39,7 @@ describe("nutrition and hydration helpers", () => {
       mealCategory: "snack",
       foodName: "Fictional entry",
       proteinGrams: -1,
-    }, new Date(2026, 9, 26))).toContain("non-negative");
+    }, new Date(2026, 9, 26))).toContain("protein");
     expect(validateNutritionEntry({
       date: "2026-02-30",
       mealCategory: "dinner",

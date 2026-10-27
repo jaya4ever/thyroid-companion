@@ -81,6 +81,15 @@ afterEach(() => {
 });
 
 describe("symptom check-ins", () => {
+  it("exposes the date and each rating group as required controls", () => {
+    renderWithProviders(<SymptomsPage />);
+
+    expect(screen.getByLabelText("Date and time").hasAttribute("required")).toBe(true);
+    const energyGroup = screen.getByRole("radiogroup", { name: /Energy,/ });
+    expect(energyGroup.getAttribute("aria-required")).toBe("true");
+    expect(within(energyGroup).getAllByRole("radio").every((radio) => radio.hasAttribute("required"))).toBe(true);
+  });
+
   it("adds a check-in and reflects today's ratings on the dashboard", async () => {
     const user = userEvent.setup();
     renderWithProviders(<DashboardAndSymptoms />);
@@ -142,8 +151,8 @@ describe("symptom check-ins", () => {
     renderWithProviders(<AppRoutes />);
 
     await user.click(screen.getByRole("link", { name: "Symptoms" }));
-    expect(screen.getByRole("heading", { name: "Symptom check-ins", level: 1 })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: "Symptom check-ins", level: 1 })).toBeTruthy();
     await user.click(screen.getByRole("link", { name: "Medications" }));
-    expect(screen.getByRole("heading", { name: "Medications", level: 1 })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: "Medications", level: 1 })).toBeTruthy();
   });
 });

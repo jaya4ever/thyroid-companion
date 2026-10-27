@@ -62,11 +62,21 @@ afterEach(() => {
 });
 
 describe("profile and weight tracking", () => {
+  it("exposes the weight table as a named keyboard-scrollable region", () => {
+    renderWithProviders(<ProfilePage />);
+
+    const tableRegion = screen.getByRole("region", { name: "Fictional weight entries in chronological order" });
+    expect(tableRegion.tabIndex).toBe(0);
+    expect(within(tableRegion).getByRole("table", { name: "Fictional weight entries in chronological order" })).toBeTruthy();
+  });
+
   it("edits profile details, calculates age, and accepts multiple conditions", async () => {
     const user = userEvent.setup();
     renderWithProviders(<ProfilePage />);
 
     await user.click(screen.getByRole("button", { name: "Edit profile" }));
+    expect(screen.getByLabelText("Full name").hasAttribute("required")).toBe(true);
+    expect(screen.getByLabelText("Date of birth").hasAttribute("required")).toBe(true);
     await user.clear(screen.getByLabelText("Full name"));
     await user.type(screen.getByLabelText("Full name"), "Maya Demo");
     await user.clear(screen.getByLabelText(/Height in centimeters/));

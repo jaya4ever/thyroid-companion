@@ -26,6 +26,20 @@ afterEach(() => {
 });
 
 describe("nutrition and hydration page", () => {
+  it("associates invalid nutrient values with their specific field error", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<NutritionPage />);
+
+    await user.type(screen.getByLabelText("Food name"), "Fictional test snack");
+    await user.type(screen.getByLabelText("Protein in grams (optional)"), "-1");
+    await user.click(screen.getByRole("button", { name: "Add food entry" }));
+
+    const proteinInput = screen.getByLabelText("Protein in grams (optional)");
+    expect(screen.getByRole("alert").textContent).toContain("protein");
+    expect(proteinInput.getAttribute("aria-invalid")).toBe("true");
+    expect(proteinInput.getAttribute("aria-describedby")).toBe("nutrition-form-error");
+  });
+
   it("adds, edits, and deletes food entries", async () => {
     const user = userEvent.setup();
     vi.spyOn(window, "confirm").mockReturnValue(true);

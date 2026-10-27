@@ -107,23 +107,23 @@ function MedicationForm({
     <form className="tracking-form" onSubmit={handleSubmit} noValidate>
       <div className="tracking-form-grid">
         <div className="form-field">
-          <label className="field-label" htmlFor="medication-name">Medication name</label>
-          <input className="field-input" id="medication-name" value={draft.name} onChange={(event) => updateField("name", event.target.value)} required />
+          <label className="field-label" data-required="true" htmlFor="medication-name">Medication name</label>
+          <input className="field-input" id="medication-name" value={draft.name} onChange={(event) => updateField("name", event.target.value)} required aria-invalid={Boolean(error && error.includes("name"))} aria-describedby={error && error.includes("name") ? "medication-form-error" : undefined} />
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="medication-dose">Prescribed dose</label>
-          <input className="field-input" id="medication-dose" type="number" min="0" step="any" inputMode="decimal" value={draft.prescribedDose} onChange={(event) => updateField("prescribedDose", event.target.value)} required />
+          <label className="field-label" data-required="true" htmlFor="medication-dose">Prescribed dose</label>
+          <input className="field-input" id="medication-dose" type="number" min="0" step="any" inputMode="decimal" value={draft.prescribedDose} onChange={(event) => updateField("prescribedDose", event.target.value)} required aria-invalid={Boolean(error && error.includes("dose greater than zero"))} aria-describedby={error && error.includes("dose greater than zero") ? "medication-form-error" : undefined} />
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="medication-unit">Dose unit</label>
-          <input className="field-input" id="medication-unit" value={draft.doseUnit} onChange={(event) => updateField("doseUnit", event.target.value)} placeholder="As prescribed" required />
+          <label className="field-label" data-required="true" htmlFor="medication-unit">Dose unit</label>
+          <input className="field-input" id="medication-unit" value={draft.doseUnit} onChange={(event) => updateField("doseUnit", event.target.value)} placeholder="As prescribed" required aria-invalid={Boolean(error && error.includes("dose unit"))} aria-describedby={error && error.includes("dose unit") ? "medication-form-error" : undefined} />
         </div>
         <div className="form-field">
-          <label className="field-label" htmlFor="medication-time">Schedule time</label>
-          <input className="field-input" id="medication-time" type="time" value={draft.time} onChange={(event) => updateField("time", event.target.value)} aria-invalid={Boolean(error && error.includes("time"))} required />
+          <label className="field-label" data-required="true" htmlFor="medication-time">Schedule time</label>
+          <input className="field-input" id="medication-time" type="time" value={draft.time} onChange={(event) => updateField("time", event.target.value)} aria-invalid={Boolean(error && error.includes("time"))} aria-describedby={error && error.includes("time") ? "medication-form-error" : undefined} required />
         </div>
-        <fieldset className="form-field form-field-wide tracking-days-field">
-          <legend className="field-label">Schedule days</legend>
+        <fieldset className="form-field form-field-wide tracking-days-field" aria-required="true" aria-invalid={Boolean(error && error.includes("schedule day"))} aria-describedby={error && error.includes("schedule day") ? "medication-form-error" : undefined}>
+          <legend className="field-label" data-required="true">Schedule days</legend>
           <div className="tracking-day-options">
             {weekdays.map((day) => (
               <label className="condition-option" key={day.value}>
@@ -138,7 +138,7 @@ function MedicationForm({
           <textarea className="field-input tracking-notes" id="medication-notes" rows={3} value={draft.notes} onChange={(event) => updateField("notes", event.target.value)} />
         </div>
       </div>
-      {error && <p className="field-error" role="alert">{error}</p>}
+      {error && <p className="field-error" id="medication-form-error" role="alert">{error}</p>}
       <div className="form-actions">
         <Button className="primary-action" type="submit">{medication ? "Save medication" : "Add medication"}</Button>
         {onCancel && <Button className="secondary-action" type="button" variant="outline" onClick={onCancel}>Cancel</Button>}
@@ -307,7 +307,7 @@ function MedicationsPage() {
             </div>
           </div>
           {doseHistory.length > 0 ? (
-            <div className="table-scroll">
+            <div className="table-scroll" role="region" aria-label="Recorded medication dose history" tabIndex={0}>
               <table className="demo-data-table tracking-history-table">
                 <caption className="visually-hidden">Recorded medication dose history</caption>
                 <thead><tr><th scope="col">Date and time</th><th scope="col">Medication</th><th scope="col">Status</th></tr></thead>

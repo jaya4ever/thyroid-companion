@@ -42,7 +42,7 @@ const sourceData: ReportSourceData = {
   symptomCheckIns: [],
   nutritionEntries: [],
   hydrationEntries: [],
-  activityEntries: [],
+  activityEntries: [{ id: "activity-1", date: "2026-10-25", activityType: "walking", durationMinutes: 30 }],
 };
 
 describe("PDF report generation", () => {
@@ -78,5 +78,8 @@ describe("PDF report generation", () => {
     expect(pdf.document.text).toHaveBeenCalledWith("Activity History", 42, 154);
     expect(pdf.document.text).not.toHaveBeenCalledWith("Profile Summary", expect.any(Number), expect.any(Number));
     expect(pdf.autoTable).toHaveBeenCalledTimes(1);
+    expect(pdf.autoTable).toHaveBeenCalledWith(pdf.document, expect.objectContaining({
+      body: [["Oct 25, 2026", "Walking", "30 min", "Not recorded"]],
+    }));
   });
 });

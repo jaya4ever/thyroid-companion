@@ -9,7 +9,8 @@ This portfolio prototype combines profile and weight records, lab results, medic
 - Strict TypeScript domain models and typed React Context for shared health records.
 - Reusable validation and sorting helpers separated from page components.
 - Accessible forms, keyboard-operable controls, and responsive layouts.
-- 85 automated tests across calculations, validation, feature flows, trends, reports, PDF generation, and dashboard synchronization.
+- 96 automated tests across calculations, validation, feature flows, trends, reports, PDF generation, and dashboard synchronization.
+- Feature routes and chart modules load on demand, reducing the initial JavaScript entry by about 47% gzip compared with the pre-Phase 8 build.
 - Lab comparisons use only user-entered reference limits; medication status is never inferred from elapsed time.
 
 ![Thyroid Companion overview dashboard showing fictional profile, weight, lab, medication, and symptom data](docs/screenshots/overview-dashboard.png)
@@ -112,11 +113,12 @@ src/main.tsx
 - **No inferred dose completion:** passing a schedule time does not mark a medication taken or skipped.
 - **Careful trend semantics:** symptom views use the self-reported 1–5 scale; missing nutrition values stay unrecorded rather than becoming zero, and activity or hydration values retain their stated units.
 - **Local report export:** reports use shared in-memory records, include explicit date ranges and user-entered lab references, and load PDF code only when export is requested. No health data is sent to a service.
+- **Route loading:** feature pages and chart modules load when opened, keeping the initial download smaller while retaining the same routes and interface.
 - **Temporary state:** this keeps the prototype small and avoids persisting sensitive health details, at the cost of losing edits on refresh.
 
 ## Accessibility and Responsive Design
 
-Forms use visible labels, fieldsets and legends, validation messages, and native controls. Action buttons have contextual accessible names; status changes use live regions; destructive actions require confirmation. Charts include accessible labels and data tables. Visible focus styling and responsive layouts are included. These are implementation choices, not a claim of formal WCAG conformance; manual assistive-technology review remains future work.
+Forms use visible labels, marked required fields, fieldsets and legends, and validation messages linked to affected controls where applicable. Action buttons have contextual accessible names; concise status changes use live regions; destructive actions require confirmation. Wide data tables are named, keyboard-focusable scroll regions, and charts include accessible labels and data tables. Visible focus styling and responsive layouts are included. These are implementation choices, not a claim of formal WCAG conformance; manual assistive-technology review remains future work.
 
 ## Run Locally
 
@@ -140,7 +142,7 @@ npm run lint
 npm run build
 ```
 
-The verified current run has 85 passing tests across health helpers, profile and weight flows, lab tracking, medication tracking, symptom check-ins, nutrition and hydration, activity, reports, PDF generation, dashboard synchronization, and trend data.
+The verified current run has 96 passing tests across health helpers, profile and weight flows, lab tracking, medication tracking, symptom check-ins, nutrition and hydration, activity, reports, PDF generation, dashboard synchronization, and trend data.
 
 ## Privacy and Safety
 

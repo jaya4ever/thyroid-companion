@@ -1,4 +1,5 @@
 import type { jsPDF } from "jspdf";
+import { formatActivityType } from "./activityUtils.js";
 import type { HealthReportData, ReportSectionId } from "./reportUtils.js";
 
 const disclaimer = "Fictional Demo Data — Not for Medical Use";
@@ -200,7 +201,7 @@ export async function createHealthReportPdf(report: HealthReportData): Promise<j
   if (sectionLabel(report, "activity")) {
     addTable("Activity History", ["Date", "Activity", "Duration", "Distance"], report.activityEntries.map((entry) => [
       formatDate(entry.date),
-      entry.activityType,
+      formatActivityType(entry.activityType),
       `${entry.durationMinutes} min`,
       formatOptionalNumber(entry.distanceKm, "km"),
     ]));

@@ -144,7 +144,7 @@ interface WeightChartProps {
 
 function WeightChart({ entries, profile, latestWeightEntry }: WeightChartProps) {
   const chartData = entries.map((entry) => ({
-    date: new Date(`${entry.date}T00:00:00`).toLocaleDateString("en-US", { month: "short", day: "2-digit" }),
+    date: new Date(`${entry.date}T00:00:00`).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
     weight: convertKilogramsToWeight(entry.weightKg, profile.weightUnit),
   }));
   const currentWeightValue = latestWeightEntry
@@ -187,10 +187,10 @@ function WeightChart({ entries, profile, latestWeightEntry }: WeightChartProps) 
                 dataKey="date"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "#8c9990", fontSize: 9 }}
+                tick={{ fill: "#5f7066", fontSize: 9 }}
                 tickMargin={10}
               />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: "#8c9990", fontSize: 9 }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: "#5f7066", fontSize: 9 }} />
               <Tooltip
                 content={({ active, payload, label }) =>
                   active && payload?.length ? (

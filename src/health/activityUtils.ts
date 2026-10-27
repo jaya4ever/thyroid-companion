@@ -15,6 +15,10 @@ export const activityTypes: ActivityType[] = [
   "other",
 ];
 
+export function formatActivityType(type: ActivityType): string {
+  return type.replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
 export function validateActivityEntry(input: ActivityEntryInput, today = new Date()): string {
   if (!isValidIsoDate(input.date)) return "Choose a valid activity date.";
   if (input.date > toIsoDate(today)) return "The activity date cannot be in the future.";
