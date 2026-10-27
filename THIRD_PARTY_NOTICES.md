@@ -11,6 +11,8 @@ The following direct packages are included in the client application:
 - [React and React DOM](https://github.com/facebook/react) — MIT; Copyright Meta Platforms, Inc. and affiliates.
 - [React Router](https://github.com/remix-run/react-router) — MIT; Copyright React Training LLC (2015–2019), Remix Software Inc. (2020–2021), and Shopify Inc. (2022–2023).
 - [Recharts](https://github.com/recharts/recharts) — MIT; Copyright (c) 2015-present recharts.
+- [jsPDF](https://github.com/parallax/jsPDF) — MIT; Copyright (c) 2010–2025 James Hall and (c) 2015–2025 yWorks GmbH.
+- [jsPDF-AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable) — MIT; Copyright (c) 2014 Simon Bengtsson.
 - [Lucide React](https://github.com/lucide-icons/lucide) — ISC; Copyright (c) 2026 Lucide Icons and Contributors. The Lucide license also identifies a set of Feather-derived icons available under MIT; see the linked [upstream license](https://github.com/lucide-icons/lucide/blob/main/LICENSE) for the authoritative icon list and terms.
 
 ### MIT License

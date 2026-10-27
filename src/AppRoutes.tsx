@@ -1,9 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import AppShell from "./components/AppShell.jsx";
+import ActivityPage from "./features/activity/ActivityPage";
 import DashboardPage from "./features/dashboard/DashboardPage.jsx";
 import LabResultsPage from "./features/labs/LabResultsPage";
 import MedicationsPage from "./features/medications/MedicationsPage";
+import NutritionPage from "./features/nutrition/NutritionPage";
 import ProfilePage from "./features/profile/ProfilePage.jsx";
+import ReportsPage from "./features/reports/ReportsPage";
 import SymptomsPage from "./features/symptoms/SymptomsPage";
 import TrendsPage from "./features/trends/TrendsPage";
 import SectionPage from "./pages/SectionPage.jsx";
@@ -14,6 +17,9 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/reports" element={<ReportsPage />} />
+        <Route path="/nutrition" element={<NutritionPage />} />
+        <Route path="/activity" element={<ActivityPage />} />
         <Route path="/trends" element={<TrendsPage />} />
         <Route path="/labs" element={<LabResultsPage />} />
         <Route path="/medications" element={<MedicationsPage />} />

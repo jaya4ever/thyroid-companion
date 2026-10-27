@@ -84,3 +84,46 @@ export interface SymptomCheckIn {
   digestion: SymptomRating;
   notes?: string;
 }
+
+export type MealCategory = "breakfast" | "lunch" | "dinner" | "snack";
+
+export interface NutritionEntry {
+  id: string;
+  date: string;
+  mealCategory: MealCategory;
+  foodName: string;
+  servingDescription?: string;
+  calories?: number;
+  proteinGrams?: number;
+  carbohydratesGrams?: number;
+  fatGrams?: number;
+  notes?: string;
+}
+
+export type HydrationUnit = "ml" | "fl-oz";
+
+export interface HydrationEntry {
+  id: string;
+  date: string;
+  amountMl: number;
+}
+
+export type ActivityType =
+  | "walking"
+  | "running"
+  | "cycling"
+  | "strength training"
+  | "yoga"
+  | "swimming"
+  | "other";
+
+export type DistanceUnit = "km" | "mi";
+
+export interface ActivityEntry {
+  id: string;
+  date: string;
+  activityType: ActivityType;
+  durationMinutes: number;
+  distanceKm?: number;
+  notes?: string;
+}

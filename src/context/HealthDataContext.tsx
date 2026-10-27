@@ -1,19 +1,25 @@
 import { useState } from "react";
 import type { PropsWithChildren } from "react";
 import {
+  createDemoActivityEntries,
+  createDemoHydrationEntries,
   createDemoMedicationDoseRecords,
   createDemoSymptomCheckIns,
   demoLabResults,
   demoMedications,
+  createDemoNutritionEntries,
   demoProfile,
   demoWeightEntries,
 } from "../data/demoData.js";
 import { HealthDataContext } from "./healthDataContext.js";
 import type {
+  ActivityEntry,
   LabResult,
+  HydrationEntry,
   Medication,
   MedicationDoseRecord,
   MedicationDoseStatus,
+  NutritionEntry,
   SymptomCheckIn,
   UserProfile,
   WeightEntry,
@@ -28,6 +34,15 @@ import {
   validateSymptomCheckIn,
 } from "../health/trackingUtils.js";
 import type { MedicationInput, SymptomCheckInInput } from "../health/trackingUtils";
+import { sortActivityEntries, validateActivityEntry } from "../health/activityUtils.js";
+import type { ActivityEntryInput } from "../health/activityUtils";
+import {
+  sortHydrationEntries,
+  sortNutritionEntries,
+  validateHydrationEntry,
+  validateNutritionEntry,
+} from "../health/nutritionUtils.js";
+import type { HydrationEntryInput, NutritionEntryInput } from "../health/nutritionUtils";
 import {
   calculateBmi,
   convertWeightToKilograms,
@@ -75,6 +90,15 @@ export function HealthDataProvider({ children }: PropsWithChildren) {
   );
   const [symptomCheckIns, setSymptomCheckIns] = useState<SymptomCheckIn[]>(() =>
     sortSymptomCheckIns(createDemoSymptomCheckIns()),
+  );
+  const [nutritionEntries, setNutritionEntries] = useState<NutritionEntry[]>(() =>
+    sortNutritionEntries(createDemoNutritionEntries()),
+  );
+  const [hydrationEntries, setHydrationEntries] = useState<HydrationEntry[]>(() =>
+    sortHydrationEntries(createDemoHydrationEntries()),
+  );
+  const [activityEntries, setActivityEntries] = useState<ActivityEntry[]>(() =>
+    sortActivityEntries(createDemoActivityEntries()),
   );
 
   const sortedWeightEntries = sortWeightEntries(weightEntries);
@@ -244,6 +268,69 @@ export function HealthDataProvider({ children }: PropsWithChildren) {
     setSymptomCheckIns((entries) => entries.filter((entry) => entry.id !== id));
   }
 
+  function addNutritionEntry(input: NutritionEntryInput): string {
+    const error = validateNutritionEntry(input);
+    if (error) return error;
+    setNutritionEntries((entries) => sortNutritionEntries([...entries, { ...input, id: createEntryId() }]));
+    return "";
+  }
+
+  function editNutritionEntry(id: string, input: NutritionEntryInput): string {
+    const error = validateNutritionEntry(input);
+    if (error) return error;
+    if (!nutritionEntries.some((entry) => entry.id === id)) return "This food entry could not be found.";
+    setNutritionEntries((entries) => sortNutritionEntries(entries.map((entry) =>
+      entry.id === id ? { ...input, id } : entry,
+    )));
+    return "";
+  }
+
+  function deleteNutritionEntry(id: string): void {
+    setNutritionEntries((entries) => entries.filter((entry) => entry.id !== id));
+  }
+
+  function addHydrationEntry(input: HydrationEntryInput): string {
+    const error = validateHydrationEntry(input.date, input.amountMl);
+    if (error) return error;
+    setHydrationEntries((entries) => sortHydrationEntries([...entries, { ...input, id: createEntryId() }]));
+    return "";
+  }
+
+  function editHydrationEntry(id: string, input: HydrationEntryInput): string {
+    const error = validateHydrationEntry(input.date, input.amountMl);
+    if (error) return error;
+    if (!hydrationEntries.some((entry) => entry.id === id)) return "This hydration entry could not be found.";
+    setHydrationEntries((entries) => sortHydrationEntries(entries.map((entry) =>
+      entry.id === id ? { ...input, id } : entry,
+    )));
+    return "";
+  }
+
+  function deleteHydrationEntry(id: string): void {
+    setHydrationEntries((entries) => entries.filter((entry) => entry.id !== id));
+  }
+
+  function addActivityEntry(input: ActivityEntryInput): string {
+    const error = validateActivityEntry(input);
+    if (error) return error;
+    setActivityEntries((entries) => sortActivityEntries([...entries, { ...input, id: createEntryId() }]));
+    return "";
+  }
+
+  function editActivityEntry(id: string, input: ActivityEntryInput): string {
+    const error = validateActivityEntry(input);
+    if (error) return error;
+    if (!activityEntries.some((entry) => entry.id === id)) return "This activity entry could not be found.";
+    setActivityEntries((entries) => sortActivityEntries(entries.map((entry) =>
+      entry.id === id ? { ...input, id } : entry,
+    )));
+    return "";
+  }
+
+  function deleteActivityEntry(id: string): void {
+    setActivityEntries((entries) => entries.filter((entry) => entry.id !== id));
+  }
+
   return (
     <HealthDataContext.Provider
       value={{
@@ -269,6 +356,18 @@ export function HealthDataProvider({ children }: PropsWithChildren) {
         addSymptomCheckIn,
         editSymptomCheckIn,
         deleteSymptomCheckIn,
+        nutritionEntries: sortNutritionEntries(nutritionEntries),
+        addNutritionEntry,
+        editNutritionEntry,
+        deleteNutritionEntry,
+        hydrationEntries: sortHydrationEntries(hydrationEntries),
+        addHydrationEntry,
+        editHydrationEntry,
+        deleteHydrationEntry,
+        activityEntries: sortActivityEntries(activityEntries),
+        addActivityEntry,
+        editActivityEntry,
+        deleteActivityEntry,
       }}
     >
       {children}

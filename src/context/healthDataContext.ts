@@ -1,9 +1,12 @@
 import { createContext } from "react";
 import type {
   LabResult,
+  ActivityEntry,
+  HydrationEntry,
   Medication,
   MedicationDoseRecord,
   MedicationDoseStatus,
+  NutritionEntry,
   SymptomCheckIn,
   UserProfile,
   WeightEntry,
@@ -11,6 +14,8 @@ import type {
 } from "../types/health";
 import type { LabResultInput } from "../health/labUtils";
 import type { MedicationInput, SymptomCheckInInput } from "../health/trackingUtils";
+import type { ActivityEntryInput } from "../health/activityUtils";
+import type { HydrationEntryInput, NutritionEntryInput } from "../health/nutritionUtils";
 
 export interface HealthDataContextValue {
   profile: UserProfile;
@@ -40,6 +45,18 @@ export interface HealthDataContextValue {
   addSymptomCheckIn: (input: SymptomCheckInInput) => string;
   editSymptomCheckIn: (id: string, input: SymptomCheckInInput) => string;
   deleteSymptomCheckIn: (id: string) => void;
+  nutritionEntries: NutritionEntry[];
+  addNutritionEntry: (input: NutritionEntryInput) => string;
+  editNutritionEntry: (id: string, input: NutritionEntryInput) => string;
+  deleteNutritionEntry: (id: string) => void;
+  hydrationEntries: HydrationEntry[];
+  addHydrationEntry: (input: HydrationEntryInput) => string;
+  editHydrationEntry: (id: string, input: HydrationEntryInput) => string;
+  deleteHydrationEntry: (id: string) => void;
+  activityEntries: ActivityEntry[];
+  addActivityEntry: (input: ActivityEntryInput) => string;
+  editActivityEntry: (id: string, input: ActivityEntryInput) => string;
+  deleteActivityEntry: (id: string) => void;
 }
 
 export const HealthDataContext = createContext<HealthDataContextValue | null>(null);

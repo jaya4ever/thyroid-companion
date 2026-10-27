@@ -13,6 +13,7 @@ import {
 } from "../../health/trackingUtils.js";
 import type { MedicationDoseStatus, SymptomCheckIn } from "../../types/health";
 import { toIsoDate } from "../../health/healthUtils.js";
+import { getDailyHydrationTotal, getDailyNutritionTotals } from "../../health/nutritionUtils.js";
 
 const metricIcons = {
   scale: Scale,
@@ -24,11 +25,17 @@ const metricIcons = {
 function PageHeader({ profile }: { profile: UserProfile }) {
   const conditionSummary =
     profile.thyroidConditions.length > 0 ? profile.thyroidConditions.join(", ") : "no condition selected";
+  const todayLabel = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
     <header className="page-header">
       <div>
-        <p className="eyebrow">Monday, October 26, 2026</p>
+        <p className="eyebrow">{todayLabel}</p>
         <h1 className="page-title">A little more in tune.</h1>
         <p className="page-subtitle">
           Good morning, {profile.name}. Your sample profile: {conditionSummary}.
@@ -372,6 +379,58 @@ function SymptomCheckIn({ entry }: { entry: SymptomCheckIn | null }) {
   );
 }
 
+function DailyTrackingSummary({
+  nutritionEntries,
+  hydrationEntries,
+  activityEntries,
+}: {
+  nutritionEntries: ReturnType<typeof useHealthData>["nutritionEntries"];
+  hydrationEntries: ReturnType<typeof useHealthData>["hydrationEntries"];
+  activityEntries: ReturnType<typeof useHealthData>["activityEntries"];
+}) {
+  const date = toIsoDate(new Date());
+  const todayNutrition = nutritionEntries.filter((entry) => entry.date === date);
+  const calories = getDailyNutritionTotals(nutritionEntries, date).calories;
+  const hydration = getDailyHydrationTotal(hydrationEntries, date);
+  const todayActivities = activityEntries.filter((entry) => entry.date === date);
+  const activityMinutes = todayActivities.reduce((total, entry) => total + entry.durationMinutes, 0);
+  const nutritionEntryLabel = todayNutrition.length === 1 ? "entry" : "entries";
+  const activityEntryLabel = todayActivities.length === 1 ? "entry" : "entries";
+  const nutritionSummary = todayNutrition.length === 0
+    ? "No entries recorded"
+    : calories.total === null
+      ? `${todayNutrition.length} ${nutritionEntryLabel} · calories not recorded`
+      : `${todayNutrition.length} ${nutritionEntryLabel} · ${calories.total} kcal recorded${calories.missingEntries > 0 ? ` · ${calories.missingEntries} missing` : ""}`;
+
+  return (
+    <section className="panel daily-tracking-panel" aria-labelledby="daily-tracking-title">
+      <div className="panel-heading">
+        <div>
+          <h2 className="panel-title" id="daily-tracking-title">Today's tracking</h2>
+          <p className="panel-caption">Summaries reflect entries saved for today only.</p>
+        </div>
+      </div>
+      <dl className="daily-tracking-grid">
+        <div>
+          <dt>Nutrition</dt>
+          <dd>{nutritionSummary}</dd>
+          <Link className="text-link" to="/nutrition">View nutrition <ArrowRight size={13} aria-hidden="true" /></Link>
+        </div>
+        <div>
+          <dt>Hydration</dt>
+          <dd>{hydration === null ? "No intake recorded" : `${Math.round(hydration)} mL recorded`}</dd>
+          <Link className="text-link" to="/nutrition">View water log <ArrowRight size={13} aria-hidden="true" /></Link>
+        </div>
+        <div>
+          <dt>Activity</dt>
+          <dd>{todayActivities.length === 0 ? "No activity recorded" : `${todayActivities.length} ${activityEntryLabel} · ${activityMinutes} min`}</dd>
+          <Link className="text-link" to="/activity">View activity <ArrowRight size={13} aria-hidden="true" /></Link>
+        </div>
+      </dl>
+    </section>
+  );
+}
+
 function DashboardPage() {
   const {
     profile,
@@ -383,6 +442,9 @@ function DashboardPage() {
     medicationDoseRecords,
     setMedicationDoseStatus,
     symptomCheckIns,
+    nutritionEntries,
+    hydrationEntries,
+    activityEntries,
   } = useHealthData();
   const today = new Date();
   const todaySchedules = getTodaySchedules(medications, today);
@@ -418,6 +480,11 @@ function DashboardPage() {
         </div>
         <SymptomCheckIn entry={todaySymptom} />
       </div>
+      <DailyTrackingSummary
+        nutritionEntries={nutritionEntries}
+        hydrationEntries={hydrationEntries}
+        activityEntries={activityEntries}
+      />
     </>
   );
 }

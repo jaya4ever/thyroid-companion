@@ -1803,6 +1803,158 @@ button {
   margin: 5px 0 10px;
 }
 
+.report-builder,
+.report-preview {
+  margin-bottom: 16px;
+}
+
+.report-option-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 16px;
+  max-width: 760px;
+}
+
+.report-section-picker {
+  border: 0;
+  margin: 18px 0 0;
+  padding: 0;
+}
+
+.report-section-picker legend {
+  margin-bottom: 8px;
+}
+
+.report-section-options {
+  display: grid;
+  gap: 8px 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.report-section-option {
+  align-items: flex-start;
+  color: #344a3e;
+  display: flex;
+  font-size: 12px;
+  gap: 8px;
+  line-height: 1.45;
+}
+
+.report-section-option input {
+  accent-color: #4f866f;
+  flex: 0 0 auto;
+  margin: 2px 0 0;
+}
+
+.report-disclaimer,
+.report-preview-label {
+  color: #53655b;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.report-disclaimer {
+  margin: 16px 0 0;
+}
+
+.report-preview-label {
+  background: #e8efe7;
+  border-radius: 4px;
+  color: #304d3e;
+  padding: 5px 8px;
+}
+
+.report-preview-content {
+  display: grid;
+  gap: 18px;
+}
+
+.report-preview-section {
+  border-top: 1px solid #e6ebe5;
+  min-width: 0;
+  padding-top: 14px;
+}
+
+.report-preview-section > .panel-title {
+  margin-bottom: 10px;
+}
+
+.report-profile-grid,
+.report-symptom-grid {
+  display: grid;
+  gap: 10px 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.report-profile-grid dt,
+.report-symptom-grid dt {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.report-profile-grid dd,
+.report-symptom-grid dd {
+  color: #344a3e;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.report-table-scroll {
+  margin: 8px 0 12px;
+}
+
+.report-data-table {
+  min-width: 560px;
+}
+
+.report-symptom-entry {
+  border-top: 1px solid #eef0ec;
+  padding: 12px 0;
+}
+
+.report-symptom-entry:first-of-type {
+  border-top: 0;
+}
+
+.report-symptom-entry h4 {
+  color: #344a3e;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0 0 9px;
+}
+
+.report-note {
+  color: #53655b;
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 9px 0 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .report-option-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .report-preview .panel-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .report-profile-grid,
+  .report-symptom-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .report-section-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .tracking-trend-table {
   min-width: 340px;
 }
@@ -1918,5 +2070,620 @@ button {
   .symptom-rating-summary,
   .dashboard-symptom-ratings {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.daily-tracking-panel {
+  margin-top: 18px;
+}
+
+.daily-tracking-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.daily-tracking-grid>div {
+  border-top: 1px solid #eef0ec;
+  min-width: 0;
+  padding-top: 11px;
+}
+
+.daily-tracking-grid dt {
+  color: #7a8880;
+  font-size: 10px;
+}
+
+.daily-tracking-grid dd {
+  color: #344a3e;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 4px 0 8px;
+  overflow-wrap: anywhere;
+}
+
+.daily-tracking-grid .text-link {
+  font-size: 10px;
+}
+
+.nutrition-entry-panel,
+.nutrition-summary-panel,
+.activity-form-panel,
+.activity-summary-panel {
+  align-self: start;
+}
+
+.nutrition-history-panel,
+.hydration-panel,
+.activity-history-panel {
+  grid-column: 1 / -1;
+}
+
+.nutrition-date-filter {
+  margin-bottom: 12px;
+  max-width: 260px;
+}
+
+.nutrition-date-filter .text-button,
+.activity-list-filters .text-button {
+  justify-self: start;
+}
+
+.nutrition-totals-grid {
+  display: grid;
+  gap: 10px 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.nutrition-totals-grid>div {
+  border-top: 1px solid #eef0ec;
+  min-width: 0;
+  padding: 11px 0;
+}
+
+.nutrition-totals-grid dt {
+  color: #7a8880;
+  font-size: 10px;
+}
+
+.nutrition-totals-grid dd {
+  color: #344a3e;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 4px 0 0;
+}
+
+.nutrition-day-group {
+  border-top: 1px solid #eef0ec;
+  padding: 14px 0 3px;
+}
+
+.nutrition-day-group>h3,
+.hydration-history-list>h3,
+.hydration-form-title {
+  color: #3c5047;
+  font-family: var(--display-font);
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.nutrition-meal-group {
+  margin: 0 0 12px;
+}
+
+.nutrition-meal-group>h4 {
+  color: #78867d;
+  font-size: 10px;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.nutrition-record-row h5 {
+  color: #3c5047;
+  font-size: 11px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.nutrition-record-values {
+  color: #64736b;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 9px;
+  gap: 5px 12px;
+  line-height: 1.5;
+  margin-top: 7px;
+}
+
+.nutrition-record-values span {
+  overflow-wrap: anywhere;
+}
+
+.hydration-panel {
+  display: grid;
+  gap: 13px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hydration-panel>.panel-heading,
+.hydration-panel>.hydration-history-list {
+  grid-column: 1 / -1;
+}
+
+.hydration-display-unit {
+  align-self: start;
+  display: grid;
+  gap: 7px;
+  justify-self: end;
+  max-width: 200px;
+  width: 100%;
+}
+
+.hydration-daily-total,
+.hydration-panel>.field-hint {
+  color: #3c5047;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hydration-form-title {
+  align-self: end;
+  margin-bottom: 0;
+}
+
+.hydration-form {
+  align-self: start;
+}
+
+.hydration-amount-row {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(160px, .75fr);
+}
+
+.hydration-history-list {
+  border-top: 1px solid #eef0ec;
+  padding-top: 14px;
+}
+
+.hydration-history-row {
+  align-items: center;
+  border-top: 1px solid #eef0ec;
+  color: #53655b;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 10px;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 9px 0;
+}
+
+.activity-period-summary {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.activity-period-summary>div {
+  border-top: 1px solid #eef0ec;
+  min-width: 0;
+  padding-top: 10px;
+}
+
+.activity-period-summary dt {
+  color: #7a8880;
+  font-size: 10px;
+}
+
+.activity-period-summary dd {
+  color: #344a3e;
+  font-family: var(--display-font);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.activity-distance-display {
+  min-width: 82px;
+  width: 90px;
+}
+
+.activity-list-filters {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 14px;
+  max-width: 620px;
+}
+
+.activity-history-table {
+  min-width: 620px;
+}
+
+.trends-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.trends-controls {
+  align-items: end;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.trends-controls .form-field {
+  min-width: 0;
+}
+
+.trend-range-control .range-buttons {
+  flex-wrap: nowrap;
+}
+
+.trend-range-control .range-button {
+  flex: 1 1 0;
+}
+
+.trends-panel .tracking-trend-panel {
+  border: 0;
+  box-shadow: none;
+  grid-column: 1 / -1;
+  padding: 0;
+}
+
+@media (max-width: 900px) {
+  .daily-tracking-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .daily-tracking-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nutrition-history-panel,
+  .hydration-panel,
+  .activity-history-panel {
+    grid-column: auto;
+  }
+
+  .trends-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trend-range-control .range-buttons {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .nutrition-totals-grid,
+  .activity-period-summary,
+  .activity-list-filters,
+  .hydration-panel,
+  .hydration-amount-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hydration-display-unit {
+    justify-self: start;
+  }
+}
+
+.daily-tracking-panel {
+  margin-top: 18px;
+}
+
+.daily-tracking-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.daily-tracking-grid>div {
+  border-top: 1px solid #eef0ec;
+  min-width: 0;
+  padding-top: 11px;
+}
+
+.daily-tracking-grid dt {
+  color: #7a8880;
+  font-size: 10px;
+}
+
+.daily-tracking-grid dd {
+  color: #344a3e;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 4px 0 8px;
+  overflow-wrap: anywhere;
+}
+
+.daily-tracking-grid .text-link {
+  font-size: 10px;
+}
+
+.nutrition-entry-panel,
+.nutrition-summary-panel,
+.activity-form-panel,
+.activity-summary-panel {
+  align-self: start;
+}
+
+.nutrition-history-panel,
+.hydration-panel,
+.activity-history-panel {
+  grid-column: 1 / -1;
+}
+
+.nutrition-date-filter {
+  margin-bottom: 12px;
+  max-width: 260px;
+}
+
+.nutrition-date-filter .text-button {
+  justify-self: start;
+}
+
+.nutrition-totals-grid {
+  display: grid;
+  gap: 10px 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.nutrition-totals-grid>div {
+  border-top: 1px solid #eef0ec;
+  min-width: 0;
+  padding: 11px 0;
+}
+
+.nutrition-totals-grid dt {
+  color: #7a8880;
+  font-size: 10px;
+}
+
+.nutrition-totals-grid dd {
+  color: #344a3e;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 4px 0 0;
+}
+
+.nutrition-day-group {
+  border-top: 1px solid #eef0ec;
+  padding: 14px 0 3px;
+}
+
+.nutrition-day-group>h3,
+.hydration-history-list>h3,
+.hydration-form-title {
+  color: #3c5047;
+  font-family: var(--display-font);
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.nutrition-meal-group {
+  margin: 0 0 12px;
+}
+
+.nutrition-meal-group>h4 {
+  color: #78867d;
+  font-size: 10px;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.nutrition-record-row h5 {
+  color: #3c5047;
+  font-size: 11px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.nutrition-record-values {
+  color: #64736b;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 9px;
+  gap: 5px 12px;
+  line-height: 1.5;
+  margin-top: 7px;
+}
+
+.nutrition-record-values span {
+  overflow-wrap: anywhere;
+}
+
+.hydration-panel {
+  display: grid;
+  gap: 13px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hydration-panel>.panel-heading,
+.hydration-panel>.hydration-history-list {
+  grid-column: 1 / -1;
+}
+
+.hydration-display-unit {
+  align-self: start;
+  display: grid;
+  gap: 7px;
+  justify-self: end;
+  max-width: 200px;
+  width: 100%;
+}
+
+.hydration-daily-total,
+.hydration-panel>.field-hint {
+  color: #3c5047;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hydration-form-title {
+  align-self: end;
+  margin-bottom: 0;
+}
+
+.hydration-form {
+  align-self: start;
+}
+
+.hydration-amount-row {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(160px, .75fr);
+}
+
+.hydration-history-list {
+  border-top: 1px solid #eef0ec;
+  padding-top: 14px;
+}
+
+.hydration-history-row {
+  align-items: center;
+  border-top: 1px solid #eef0ec;
+  color: #53655b;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 10px;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 9px 0;
+}
+
+.activity-period-summary {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.activity-period-summary>div {
+  border-top: 1px solid #eef0ec;
+  min-width: 0;
+  padding-top: 10px;
+}
+
+.activity-period-summary dt {
+  color: #7a8880;
+  font-size: 10px;
+}
+
+.activity-period-summary dd {
+  color: #344a3e;
+  font-family: var(--display-font);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.activity-distance-display {
+  min-width: 82px;
+  width: 90px;
+}
+
+.activity-list-filters {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 14px;
+  max-width: 620px;
+}
+
+.activity-list-filters .text-button {
+  justify-self: start;
+}
+
+.activity-history-table {
+  min-width: 620px;
+}
+
+.trends-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.trends-controls {
+  align-items: end;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.trends-controls .form-field {
+  min-width: 0;
+}
+
+.trend-range-control .range-buttons {
+  flex-wrap: nowrap;
+}
+
+.trend-range-control .range-button {
+  flex: 1 1 0;
+}
+
+.trends-panel .tracking-trend-panel {
+  border: 0;
+  box-shadow: none;
+  grid-column: 1 / -1;
+  padding: 0;
+}
+
+@media (max-width: 900px) {
+  .daily-tracking-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .daily-tracking-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nutrition-history-panel,
+  .hydration-panel,
+  .activity-history-panel {
+    grid-column: auto;
+  }
+
+  .trends-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trend-range-control .range-buttons {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .nutrition-totals-grid,
+  .activity-period-summary,
+  .activity-list-filters,
+  .hydration-panel,
+  .hydration-amount-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hydration-display-unit {
+    justify-self: start;
   }
 }
