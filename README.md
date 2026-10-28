@@ -4,6 +4,8 @@
 
 This portfolio prototype combines profile and weight records, lab results, medication schedules, and symptom check-ins in a responsive interface. It focuses on typed data models, shared client state, and clear tracking workflows—not diagnosis or treatment.
 
+**Live demo:** [Thyroid Companion on GitHub Pages](https://jaya4ever.github.io/thyroid-companion/)
+
 ## Engineering Highlights
 
 - Strict TypeScript domain models and typed React Context for shared health records.
