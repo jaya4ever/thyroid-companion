@@ -28,6 +28,8 @@ Docs-only and desktop-only changes do not redeploy the website. Active deploymen
 
 It installs dependencies with Node 22, checks shared React and Electron TypeScript, runs desktop security and provenance tests and ESLint, packages the app and ZIP, verifies the local signature/architecture/archive, and smoke-tests navigation, charts, reload, renderer isolation, and PDF export.
 
+The packaging commands first initialize the locked Electron runtime through npm pre-scripts. Electron downloads that runtime lazily, so a clean `npm ci` alone does not provide the Chromium license resources needed by Forge. The installer reuses its cache and validates the declared runtime download; it does not skip packaging or security checks.
+
 Only after those checks pass, it uploads an Actions artifact named:
 
 ```text
