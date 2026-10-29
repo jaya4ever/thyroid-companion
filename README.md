@@ -1,182 +1,132 @@
 # Thyroid Companion
 
-**[Live Demo — Try Thyroid Companion](https://jaya4ever.github.io/thyroid-companion/)**
+**[Live Web Demo — Try Thyroid Companion](https://jaya4ever.github.io/thyroid-companion/)**
 
-![Thyroid Companion dashboard with fictional health records and daily tracking summaries](docs/screenshots/overview-dashboard-current.png)
+![Thyroid Companion web dashboard with fictional health records](docs/screenshots/overview-dashboard-current.png)
 
-A React and TypeScript portfolio app that brings fictional health records into one responsive interface. Track weight, labs, medication schedules, symptoms, nutrition, hydration, and activity; explore trends; and export selected records as a PDF.
+A React and TypeScript portfolio application for organizing fictional health records, reviewing trends, and exporting PDF summaries. The same frontend runs as a **GitHub Pages web app** and an **Electron desktop app for Apple Silicon Macs**.
 
-Built to demonstrate frontend engineering through typed shared state, reusable validation, interactive charts, and automated tests. No account or installation is needed to try the demo. Changes reset when the page is refreshed.
+The project demonstrates typed shared state, reusable validation, responsive interfaces, automated testing, and separate web and desktop build configurations. The web demo requires no account or installation; the desktop version is currently a local development build, not a public download.
 
 ## Features
 
-| Feature | What you can do |
+| Area | Capabilities |
 | --- | --- |
-| Dashboard | Review weight, labs, scheduled medication status, symptoms, and daily tracking summaries. |
-| Profile and weight | Edit the sample profile, manage weight records, calculate BMI, and explore weight history. |
-| Lab results | Add, edit, delete, filter, and chart results with recorded units and optional user-entered reference limits. |
-| Medications | Manage schedules, mark doses taken or skipped, and review recorded dose history. |
-| Symptoms | Record seven self-reported 1–5 ratings, date and time, and optional notes. |
-| Nutrition and hydration | Record meals, optional nutrient values, and water intake in milliliters or fluid ounces. |
-| Activity | Record activity type, duration, and optional distance; review weekly and monthly totals. |
-| Trends | Explore symptoms, activity, hydration, and nutrition over 7, 30, or 90 days with charts and tables. |
-| Reports | Select a date range and sections, preview records, and download a multi-page PDF generated in the browser. |
+| Dashboard | Weight, lab, medication, symptom, and daily nutrition/activity summaries |
+| Profile and weight | Editable sample profile, weight history, BMI calculation, and charts |
+| Lab results | Add, edit, delete, filter, and chart results with user-entered reference limits |
+| Medications and symptoms | Medication schedules, explicitly recorded dose status, and seven self-reported symptom ratings |
+| Nutrition and activity | Meal and nutrient records, hydration, activity duration, and optional distance |
+| Trends | Charts and tables across 7-, 30-, and 90-day ranges |
+| Reports | Select dates and sections, preview records, and export a multi-page PDF |
 
-The Journal navigation item currently opens a placeholder page.
+Journal is currently a placeholder. All records are fictional, and edits reset on refresh or restart.
 
-## Technologies
+## Technology and Architecture
 
-| Area | Tools |
+| Area | Technologies |
 | --- | --- |
-| Interface | React, TypeScript, Chakra UI, Emotion |
-| Development and build | Vite |
-| Navigation | React Router with HashRouter |
-| Charts and icons | Recharts, Lucide React |
-| PDF export | jsPDF, jsPDF-AutoTable |
-| Testing | Vitest, React Testing Library, user-event, jsdom |
-| Code checks | TypeScript strict mode, ESLint |
-| Hosting | GitHub Pages, GitHub Actions |
+| Shared interface | React, TypeScript, Chakra UI, Emotion |
+| Build and routing | Vite, React Router with HashRouter |
+| Visualization and export | Recharts, Lucide React, jsPDF, jsPDF-AutoTable |
+| Desktop | Electron, Electron Forge, Forge's Vite plugin, macOS ZIP maker |
+| Verification | Vitest, React Testing Library, ESLint, TypeScript, Playwright Core desktop smoke checks |
+| Web hosting | GitHub Pages, GitHub Actions |
 
-Dependency version ranges are listed in `package.json`; exact resolved versions are recorded in `package-lock.json`.
+```text
+Shared React + TypeScript application
+├── Web: Vite build → GitHub Pages
+└── macOS: Electron window → bundled React interface
+           └── Electron Forge → Apple Silicon .app and ZIP
+```
 
-## Run Locally
+- **Shared state:** React Context supplies records and update actions across screens, keeping dashboard summaries synchronized.
+- **Typed boundaries:** TypeScript defines record shapes; reusable helpers validate input and handle calculations, sorting, and report assembly.
+- **Routing:** HashRouter stores the page after `#`, supporting both static web hosting and desktop HTML loaded from disk.
+- **Loading:** feature screens and PDF libraries load on demand. Web assets use `/thyroid-companion/`; desktop assets use relative paths.
+- **Data handling:** medication completion requires user input, lab comparisons use supplied reference limits and matching units, and missing nutrient values remain distinct from zero.
 
-**Prerequisites:** Node.js 22.x, npm, and Git. No API keys, database, or backend setup are required.
+Key folders: `src/features/` for screens, `src/context/` for shared state, `src/types/` for data models, `src/health/` for reusable logic, and `electron/` for the desktop wrapper. Exact dependency versions are recorded in `package-lock.json`.
 
-1. Clone the repository and open its folder:
+## Run the Web App
 
-   ```bash
-   git clone https://github.com/jaya4ever/thyroid-companion.git
-   cd thyroid-companion
-   ```
+Use **Node.js 22.13+ in the Node 22 release line**, npm, and Git. No API keys or backend setup are required.
 
-2. Install dependencies:
+```bash
+git clone https://github.com/jaya4ever/thyroid-companion.git
+cd thyroid-companion
+npm install
+npm run dev
+```
 
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-
-   ```bash
-   npm run dev
-   ```
-
-4. Open the local URL printed by Vite, usually **http://localhost:5173**. If that port is occupied, Vite may print a different port.
-
-For an installation that follows the committed lockfile exactly, use `npm ci` instead of `npm install`.
-
-## Development Commands
+Open the local URL printed by Vite, usually **http://localhost:5173**. Vite may select another port if that one is occupied. Use `npm ci` instead of `npm install` for an installation that follows the lockfile exactly.
 
 | Command | Purpose |
 | --- | --- |
-| `npm run dev` | Start the development server |
-| `npm run typecheck` | Check TypeScript without generating files |
-| `npm run lint` | Run ESLint |
-| `npm run test` | Run the test suite once |
+| `npm run dev` | Start the web development server |
+| `npm run build` | Build the website into `dist/` |
+| `npm run preview` | Preview the production build after building |
+| `npm run test` | Run all unit and component tests once |
 | `npm run test:watch` | Run tests while developing |
-| `npm run build` | Generate the production website in `dist/` |
-| `npm run preview` | Serve the production build locally |
+| `npm run typecheck` | Check the React application's TypeScript |
+| `npm run lint` | Run ESLint |
 
-`npm test` is equivalent to `npm run test`. The build command runs Vite; TypeScript checking is a separate command.
+The Vite build and TypeScript checks are separate commands. `npm test` is equivalent to `npm run test`.
 
-To preview the production build:
+## macOS Desktop Application
 
-```bash
-npm run build
-npm run preview
-```
+The desktop implementation is currently on **`feat/electron-macos`**. Use that checkout for the commands below. It targets **Apple Silicon (`arm64`) Macs** and requires macOS, Apple's command-line tools, and Node.js 22.13+ for development and packaging. The packaged application includes its runtime, so opening it does not require Node.js.
 
-Open the URL printed by the preview server. Production assets use the `/thyroid-companion/` path configured for GitHub Pages.
+**Electron** creates the native macOS window around the existing React interface. **Vite** serves it during development and builds local assets for production. **Electron Forge** packages those assets and the Electron runtime into an application bundle and ZIP.
 
-## Architecture
+The main process manages the window and downloads. The React renderer has **context isolation, Chromium sandboxing, and web security enabled**, with **Node integration disabled** and no preload bridge. Navigation to other documents, popups, webviews, and unnecessary permission requests are blocked. A desktop Content Security Policy limits resource sources.
 
-```text
-src/main.tsx
-  └─ StrictMode
-       └─ ChakraProvider
-            └─ HashRouter
-                 └─ HealthDataProvider
-                      └─ AppRoutes
-                           └─ AppShell + current screen
-```
+Reports use the shared jsPDF implementation. Electron accepts the generated report download and presents a **native Save dialog** so the user chooses where the PDF goes. No report service receives the records. The packaged app uses the supplied butterfly icon; web branding is unchanged.
 
-```text
-src/
-  components/    Shared layout and navigation
-  features/      Feature screens and interaction tests
-  context/       Shared health records and update actions
-  types/         TypeScript definitions for health records
-  health/        Calculations, validation, trends, and report helpers
-  data/          Fictional starter records
-  pages/         General section and placeholder page
-  styles.css     App styling and responsive layouts
-```
+After installing dependencies:
 
-- `src/context/HealthDataContext.tsx` owns shared in-memory records. Screens access them through `useHealthData()` so updates can also appear on the dashboard.
-- `src/types/health.ts` defines record shapes and constrained rating and status values. Runtime validation checks user-entered values.
-- `src/health/` separates calculations, sorting, validation, and report assembly from screen components.
-- Feature screens load through React lazy loading. PDF libraries load when an export is requested.
-- Lab comparisons use only entered reference limits and matching units. Medication completion requires explicit user input. Missing nutrient values stay distinct from zero.
+| Command | Purpose |
+| --- | --- |
+| `npm run desktop:dev` | Start the Electron application with Vite |
+| `npm run desktop:typecheck` | Check Electron TypeScript |
+| `npm run desktop:package` | Build the Apple Silicon `.app` |
+| `npm run desktop:make` | Build the `.app` and its ZIP |
+| `npm run desktop:smoke` | Test packaged navigation, charts, renderer isolation, and PDF export |
+| `npm run desktop:icons` | Regenerate the macOS icon sizes and `.icns` |
 
-## Testing and Accessibility
+After packaging, double-click `out/Thyroid Companion-darwin-arm64/Thyroid Companion.app` in Finder. ZIP output is under `out/make/zip/darwin/arm64/`. Generated packages and smoke-test exports are ignored by Git.
 
-The current suite has **97 passing tests across 16 test files**, covering calculations, validation, tracking workflows, dashboard updates, trends, report assembly, and PDF generation.
+**Release status:** the local build has an ad-hoc signature. It is **not Developer ID signed or notarized**, and is **not yet a public installer or distribution release**. Intel builds and automatic updates are not configured. Forge's Vite integration is experimental and its version is pinned.
 
-Activity-summary tests use a fixed clock to verify both Monday and Thursday totals without depending on the date the suite runs.
+If cloud-sync metadata interferes with local signature checks, set `THYROID_DESKTOP_OUT_DIR` to a folder outside cloud sync when packaging. The unchanged Node 20 web workflow was also checked successfully; it emits engine warnings for desktop-only tooling, which requires Node 22.
 
-Run the project checks with:
+## Verification and Accessibility
+
+The verified suite has **107 passing tests across 18 files**, covering calculations, validation, feature workflows, dashboard updates, trends, PDF generation, and desktop security policy. The packaged-app smoke check also exercises real navigation, chart rendering, reload, and multi-page PDF saving; it automates the save destination only during the test.
 
 ```bash
 npm run test
 npm run typecheck
+npm run desktop:typecheck
 npm run lint
 npm run build
+npm run desktop:make
+npm run desktop:smoke
 ```
 
-Accessibility features include labeled controls, linked validation messages where applicable, visible focus styles, status announcements, and keyboard-focusable table regions. Trend views provide charts and data tables. Formal accessibility conformance has not been assessed; manual keyboard, screen-reader, and browser testing remain planned work.
-
-The GitHub Pages workflow is started manually and runs lint, TypeScript checks, tests, and the production build before deployment.
+The interface includes labeled controls, validation messages, visible focus styles, status announcements, keyboard-focusable tables, and modal mobile navigation. Trend charts have companion data tables. Formal accessibility conformance has not been assessed; manual assistive-technology review remains planned work.
 
 ## Demo Data and Limitations
 
-- All starter profiles and health records are fictional. Use fictional information only.
-- Records live in React memory and reset on refresh. There is no backend, database, authentication, or browser-storage persistence.
-- PDFs are generated from selected records in the browser without uploading them to a report service. Reports are labeled **Fictional Demo Data — Not for Medical Use**.
-- Google Fonts supplies the app's fonts; health records are not included in font requests. No analytics or health-data API is configured.
-- This prototype provides tracking interfaces, not diagnosis or treatment recommendations. It is not intended for clinical use or real patient data and has not undergone a security or compliance assessment.
+- **Fictional data only:** this is a portfolio prototype, not a clinical application or a source of diagnosis or treatment advice.
+- **No backend or record persistence:** records live in React memory and reset on refresh or restart. There is no database or authentication. The Electron renderer session is nonpersistent; normal runtime files may still be created, and explicitly saved PDFs remain on disk.
+- **External fonts:** the interface requests Google Fonts; health records are not included in those requests. No analytics or health-data API is configured.
+- **Screenshots:** the image above shows the web interface. Older screenshots in `docs/screenshots/` show earlier navigation and are historical, not the latest desktop interface.
 
-See [SECURITY.md](SECURITY.md) for further privacy and security notes.
+Next steps include refreshing feature screenshots, extending browser coverage, completing manual accessibility checks, and defining privacy requirements before introducing persistent storage. See [SECURITY.md](SECURITY.md) for security notes.
 
-## Screenshot Status
+## Attribution and Development
 
-The dashboard image at the top was captured from the local application on October 29, 2026. It shows the current local source; the deployed demo may differ until a deployment is approved.
+No project-level license has been selected. Dependency, font, desktop-runtime, and asset notices are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-The older images remain in `docs/screenshots/` as historical assets and are not presented as the latest interface:
-
-| Older file | Why it should be replaced |
-| --- | --- |
-| `overview-dashboard.png` | Missing Nutrition, Activity, and Reports navigation and the daily tracking summary; superseded here by `overview-dashboard-current.png`. |
-| `profile.png` | Shows the older sidebar without Nutrition, Activity, or Reports. |
-| `weight-tracking.png` | Shows the older sidebar; duplicates the full profile screenshot rather than focusing on weight tracking. |
-| `lab-results.png` | Shows the older sidebar and omits the current saved-result edit/delete actions. |
-| `medication-tracking.png` | Shows the older sidebar and omits the current medication edit action. |
-| `symptom-check-ins.png` | Shows the older sidebar; should be recaptured with the current navigation. |
-
-Screenshots of nutrition, activity, reports, and trends would provide further examples of the completed features.
-
-## Planned Improvements
-
-- Refresh the remaining feature screenshots.
-- Complete manual keyboard, screen-reader, and responsive testing.
-- Add end-to-end browser coverage and automated pull-request checks.
-- Define consent, retention, export/deletion, and security requirements before adding persistence.
-- Confirm unused asset provenance and select a project license before distribution.
-
-## Licensing and Attribution
-
-No project-level license has been selected. Dependency and font notices are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Unused local assets with unverified provenance are excluded from Git and require review before inclusion or distribution.
-
-## Development Process
-
-AI-assisted tools were used during implementation and documentation. Automated tests, TypeScript, ESLint, and production builds support review; these checks do not replace human review.
+AI-assisted tools were used during implementation and documentation. Automated checks support engineering review and do not replace human review.

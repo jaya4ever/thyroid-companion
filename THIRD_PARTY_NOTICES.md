@@ -114,3 +114,9 @@ The React/Vite graphics appear to be starter assets, but their exact source file
 ## Project License
 
 No project-level license has been selected. These third-party notices cover only the listed dependencies and fonts; they do not grant a license to Thyroid Companion's application code.
+
+## Electron Demo Branch Tooling
+
+The desktop branch adds Electron (MIT, with bundled Chromium and other third-party components), Electron Forge and its Vite/ZIP tooling (MIT), Playwright Core (Apache-2.0), Babel parsing tooling (MIT), and Node.js type definitions (MIT). Consult each installed package's LICENSE and the Electron distribution's `LICENSE` and `LICENSES.chromium.html` before distributing a desktop build. Forge retains Electron's bundled notices in its package output; this local prototype is not a distribution release.
+
+The butterfly icon is supplied by the project owner for the desktop app. The original remains unchanged, and the generated PNG/iconset/ICNS copies derive from it without a redesign. No additional reuse or redistribution rights are asserted here.

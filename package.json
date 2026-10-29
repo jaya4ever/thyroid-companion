@@ -10,7 +10,13 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "desktop:dev": "electron-forge start",
+    "desktop:typecheck": "tsc --project electron/tsconfig.json --noEmit",
+    "desktop:package": "electron-forge package --platform=darwin --arch=arm64",
+    "desktop:make": "electron-forge make --platform=darwin --arch=arm64",
+    "desktop:icons": "bash scripts/generate-macos-icons.sh",
+    "desktop:smoke": "node scripts/desktop-smoke.mjs"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.37.0",
@@ -24,20 +30,35 @@
     "recharts": "^3.10.1"
   },
   "devDependencies": {
+    "@babel/core": "7.29.7",
+    "@babel/eslint-parser": "7.29.9",
+    "@babel/plugin-syntax-typescript": "7.29.7",
+    "@electron-forge/cli": "8.0.1",
+    "@electron-forge/maker-zip": "8.0.1",
+    "@electron-forge/plugin-vite": "8.0.1",
     "@eslint/js": "^9.39.5",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
+    "@types/node": "22.20.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^4.7.0",
+    "electron": "45.1.0",
     "eslint": "^9.39.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.13.0",
     "jsdom": "^26.1.0",
+    "playwright-core": "1.64.1",
     "typescript": "^7.0.2",
     "vite": "^6.4.5",
     "vitest": "^4.1.12"
+  },
+  "productName": "Thyroid Companion",
+  "description": "Fictional-data health tracking portfolio demo for web and macOS",
+  "main": ".vite/build/main.cjs",
+  "config": {
+    "forge": "./forge.config.cjs"
   }
 }

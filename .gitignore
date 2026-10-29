@@ -46,3 +46,7 @@ public/favicon.svg
 *.njsproj
 *.sln
 *.sw?
+
+# Local desktop packages and smoke-test exports
+out/
+desktop-test-results/

@@ -37,3 +37,11 @@ Future authentication should use a well-maintained identity provider and establi
 - [ ] For features involving accounts, APIs, persistence, sharing, or real health information, update the threat model and map applicable controls to the selected OWASP ASVS version before release.
 - [ ] Verify accessibility, privacy disclosures, data retention/deletion, authorization, and incident response behavior for the actual release scope.
 - [ ] Make no security or compliance certification claims unless the exact claim has been verified and approved.
+
+## Electron Demo Branch
+
+The Electron wrapper loads the same fictional-data React interface from a local Vite server during development and packaged files in production. Its renderer uses `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, and `webSecurity: true`, with no preload bridge. Navigation to other documents, new windows, webviews, and permission requests are blocked. A desktop-only CSP limits script and resource sources; the existing Google Fonts and Emotion styling remain supported.
+
+The named renderer session is nonpersistent, and health records still reset on refresh or restart. This does not imply that Electron creates no runtime files. Only generated demo PDF downloads are accepted, using a native save dialog; exported files remain on disk at the selected location.
+
+Local macOS packages use an ad-hoc signature with no device entitlements. They are not Developer ID signed, notarized, audited, or approved for clinical use or public distribution. Packaging does not upload the app or use an Apple account. No automatic updater or publisher is configured.
