@@ -1,0 +1,83 @@
+name: Verify Electron macOS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'electron/**'
+      - 'assets/icons/**'
+      - 'scripts/**'
+      - 'forge.config.cjs'
+      - 'vite.main.config.mjs'
+      - 'vite.renderer.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'index.html'
+      - 'tsconfig.json'
+      - 'eslint.config.js'
+      - 'vitest.config.js'
+      - 'THIRD_PARTY_NOTICES.md'
+      - '.github/workflows/desktop.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  macos:
+    if: github.ref == 'refs/heads/main'
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          architecture: arm64
+          cache: npm
+      - name: Confirm native Apple Silicon runner
+        run: test "$(uname -m)" = arm64
+      - name: Install dependencies
+        run: npm ci
+      - name: Check shared React TypeScript
+        run: npm run typecheck
+      - name: Check Electron TypeScript
+        run: npm run desktop:typecheck
+      - name: Run desktop security and provenance tests
+        run: npm run test -- electron/security.test.ts scripts/build-provenance.test.mjs
+      - name: Run ESLint
+        run: npm run lint
+      - name: Package Apple Silicon app and ZIP
+        run: npm run desktop:make
+      - name: Verify bundle, architecture, and ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          app_path='out/Thyroid Companion-darwin-arm64/Thyroid Companion.app'
+          codesign --verify --deep --strict "$app_path"
+          test "$(lipo -archs "$app_path/Contents/MacOS/Thyroid Companion")" = arm64
+          shopt -s nullglob
+          archives=(out/make/zip/darwin/arm64/*.zip)
+          test "${#archives[@]}" -eq 1
+          unzip -t "${archives[0]}"
+      - name: Smoke-test the packaged application
+        run: npm run desktop:smoke
+      - name: Record artifact source commit and ZIP hashes
+        run: node scripts/build-provenance.mjs desktop
+      - name: Upload internal verification artifact
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: thyroid-companion-macos-arm64-${{ github.sha }}
+          path: |
+            out/make/zip/darwin/arm64/*.zip
+            out/desktop-build-info.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0

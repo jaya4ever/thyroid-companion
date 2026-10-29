@@ -98,11 +98,22 @@ After packaging, double-click `out/Thyroid Companion-darwin-arm64/Thyroid Compan
 
 **Release status:** the local build has an ad-hoc signature. It is **not Developer ID signed or notarized**, and is **not yet a public installer or distribution release**. Intel builds and automatic updates are not configured. Forge's Vite integration is experimental and its version is pinned.
 
-If cloud-sync metadata interferes with local signature checks, set `THYROID_DESKTOP_OUT_DIR` to a folder outside cloud sync when packaging. The unchanged Node 20 web workflow was also checked successfully; it emits engine warnings for desktop-only tooling, which requires Node 22.
+If cloud-sync metadata interferes with local signature checks, set `THYROID_DESKTOP_OUT_DIR` to a folder outside cloud sync when packaging. The delivery workflows use Node 22 for both targets.
+
+## Automated Delivery
+
+Relevant pushes or merges to `main` run two independent workflows:
+
+- **GitHub Pages:** run tests, React TypeScript checks, lint, and the web build; deploy only after those checks pass, then verify the live commit and asset hashes.
+- **Electron macOS:** check both TypeScript targets and desktop security tests, package and smoke-test the Apple Silicon app, and attach its ZIP and source/hash receipt as a 14-day Actions artifact. This does not create a GitHub Release or update an installed Mac app.
+
+README and documentation-folder edits skip delivery builds; packaged attribution notices still trigger desktop packaging. Desktop-only files do not redeploy the website. Workflow changes on feature branches do not activate delivery. Build permissions are read-only; Pages publishing permissions are limited to the deploy job.
+
+See [Delivery instructions](docs/DELIVERY.md) for checking website status, downloading desktop artifacts, and replacing a local Mac application manually.
 
 ## Verification and Accessibility
 
-The verified suite has **107 passing tests across 18 files**, covering calculations, validation, feature workflows, dashboard updates, trends, PDF generation, and desktop security policy. The packaged-app smoke check also exercises real navigation, chart rendering, reload, and multi-page PDF saving; it automates the save destination only during the test.
+The verified suite has **111 passing tests across 19 files**, covering calculations, validation, feature workflows, dashboard updates, trends, PDF generation, and desktop security policy. The packaged-app smoke check also exercises real navigation, chart rendering, reload, and multi-page PDF saving; it automates the save destination only during the test.
 
 ```bash
 npm run test
