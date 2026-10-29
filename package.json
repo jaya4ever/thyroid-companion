@@ -16,7 +16,9 @@
     "desktop:package": "electron-forge package --platform=darwin --arch=arm64",
     "desktop:make": "electron-forge make --platform=darwin --arch=arm64",
     "desktop:icons": "bash scripts/generate-macos-icons.sh",
-    "desktop:smoke": "node scripts/desktop-smoke.mjs"
+    "desktop:smoke": "node scripts/desktop-smoke.mjs",
+    "predesktop:package": "node node_modules/electron/install.js",
+    "predesktop:make": "node node_modules/electron/install.js"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.37.0",
