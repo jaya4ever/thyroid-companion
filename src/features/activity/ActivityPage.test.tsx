@@ -39,6 +39,7 @@ function ClearActivities() {
 
 afterEach(() => {
   cleanup();
+  vi.useRealTimers();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
@@ -137,10 +138,15 @@ describe("activity page", () => {
     expect(within(summary).getByText("2 entries · 50 min")).toBeTruthy();
   });
 
-  it("shows weekly and monthly totals from recorded activity only", () => {
+  it.each([
+    { day: 26, weeklyMinutes: 30 }, // Monday: the yoga entry is in the previous week.
+    { day: 29, weeklyMinutes: 65 }, // Thursday: today's walk and Monday's yoga both count.
+  ])("shows recorded totals on October $day with $weeklyMinutes weekly minutes", ({ day, weeklyMinutes }) => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date(2026, 9, day, 12));
     renderWithProviders(<ActivityPage />);
     const summary = screen.getByRole("region", { name: "Recorded minutes" });
-    expect(within(summary).getByText("This week").parentElement?.textContent).toContain("30 min");
+    expect(within(summary).getByText("This week").parentElement?.textContent).toContain(`${weeklyMinutes} min`);
     expect(within(summary).getByText("This month").parentElement?.textContent).toContain("110 min");
   });
 

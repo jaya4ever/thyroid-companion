@@ -1,173 +1,182 @@
 # Thyroid Companion
 
-**A React and TypeScript app for organizing fictional thyroid-health tracking in one place.**
+**[Live Demo — Try Thyroid Companion](https://jaya4ever.github.io/thyroid-companion/)**
 
-This portfolio prototype combines profile and weight records, lab results, medication schedules, and symptom check-ins in a responsive interface. It focuses on typed data models, shared client state, and clear tracking workflows—not diagnosis or treatment.
+![Thyroid Companion dashboard with fictional health records and daily tracking summaries](docs/screenshots/overview-dashboard-current.png)
 
-**Live demo:** [Thyroid Companion on GitHub Pages](https://jaya4ever.github.io/thyroid-companion/)
+A React and TypeScript portfolio app that brings fictional health records into one responsive interface. Track weight, labs, medication schedules, symptoms, nutrition, hydration, and activity; explore trends; and export selected records as a PDF.
 
-## Engineering Highlights
+Built to demonstrate frontend engineering through typed shared state, reusable validation, interactive charts, and automated tests. No account or installation is needed to try the demo. Changes reset when the page is refreshed.
 
-- Strict TypeScript domain models and typed React Context for shared health records.
-- Reusable validation and sorting helpers separated from page components.
-- Accessible forms, keyboard-operable controls, and responsive layouts.
-- 96 automated tests across calculations, validation, feature flows, trends, reports, PDF generation, and dashboard synchronization.
-- Feature routes and chart modules load on demand, reducing the initial JavaScript entry by about 47% gzip compared with the pre-Phase 8 build.
-- Lab comparisons use only user-entered reference limits; medication status is never inferred from elapsed time.
+## Features
 
-![Thyroid Companion overview dashboard showing fictional profile, weight, lab, medication, and symptom data](docs/screenshots/overview-dashboard.png)
+| Feature | What you can do |
+| --- | --- |
+| Dashboard | Review weight, labs, scheduled medication status, symptoms, and daily tracking summaries. |
+| Profile and weight | Edit the sample profile, manage weight records, calculate BMI, and explore weight history. |
+| Lab results | Add, edit, delete, filter, and chart results with recorded units and optional user-entered reference limits. |
+| Medications | Manage schedules, mark doses taken or skipped, and review recorded dose history. |
+| Symptoms | Record seven self-reported 1–5 ratings, date and time, and optional notes. |
+| Nutrition and hydration | Record meals, optional nutrient values, and water intake in milliliters or fluid ounces. |
+| Activity | Record activity type, duration, and optional distance; review weekly and monthly totals. |
+| Trends | Explore symptoms, activity, hydration, and nutrition over 7, 30, or 90 days with charts and tables. |
+| Reports | Select a date range and sections, preview records, and download a multi-page PDF generated in the browser. |
 
-## What It Solves
+The Journal navigation item currently opens a placeholder page.
 
-Personal measurements and notes can be scattered across paper reports and separate tools. This prototype explores a single place to record and review those items, while keeping the data model explicit and the interface focused on tracking rather than diagnosis or treatment advice.
+## Technologies
 
-All sample people and health values are fictional. Changes are held in React memory and disappear when the page is refreshed.
+| Area | Tools |
+| --- | --- |
+| Interface | React, TypeScript, Chakra UI, Emotion |
+| Development and build | Vite |
+| Navigation | React Router with HashRouter |
+| Charts and icons | Recharts, Lucide React |
+| PDF export | jsPDF, jsPDF-AutoTable |
+| Testing | Vitest, React Testing Library, user-event, jsdom |
+| Code checks | TypeScript strict mode, ESLint |
+| Hosting | GitHub Pages, GitHub Actions |
 
-## Completed Features
+Dependency version ranges are listed in `package.json`; exact resolved versions are recorded in `package-lock.json`.
 
-- **Overview:** summary cards, weight chart, recent lab values, today's scheduled medication status and symptom check-in, plus daily food, hydration, and activity summaries.
-- **Profile and weight tracking:** editable profile, BMI calculation, weight entry history, sorting, and weight trends.
-- **Lab results:** add, edit, and delete results; filter by test; sort by date; record user-supplied reference limits; and chart results by test and unit.
-- **Medication tracking:** record a medication and its prescribed schedule, mark a dose taken or skipped, and review recorded dose history. Scheduled doses remain unrecorded until a user selects a status.
-- **Symptom check-ins:** date and time, seven self-reported 1–5 ratings, optional notes, and editable chronological history.
-- **Nutrition and hydration:** group food records by date and meal, enter optional nutrient values, review daily totals with missing values kept distinct from zero, and record water in milliliters or fluid ounces.
-- **Activity tracking:** record activity type, date, duration, and optional distance; review chronological history and weekly or monthly duration totals.
-- **Reports:** select a 7-, 30-, or 90-day preset or custom date range and choose profile, weight/BMI, thyroid labs, medication schedules and recorded doses, symptom, nutrition/hydration, and activity sections. Review the accessible preview, then download a multi-page PDF generated locally in the browser. Missing values and unprovided lab reference ranges are identified rather than inferred. The report is labeled **Fictional Demo Data — Not for Medical Use** and contains no diagnoses or treatment recommendations.
-- **Trends:** review symptom ratings, activity, hydration, or nutrition over 7, 30, or 90 days, with chart and table views, explicit units, and limited or incomplete-data states.
-- **Responsive navigation:** React Router pages adapt to smaller viewports and support keyboard operation.
+## Run Locally
 
-## Screenshots
+**Prerequisites:** Node.js 22.x, npm, and Git. No API keys, database, or backend setup are required.
 
-The screenshots below were captured from the running application at a consistent desktop width. They contain fictional demo information only.
+1. Clone the repository and open its folder:
 
-### Overview Dashboard
+   ```bash
+   git clone https://github.com/jaya4ever/thyroid-companion.git
+   cd thyroid-companion
+   ```
 
-Today's medication and symptom state appears beside the existing weight and lab summary.
+2. Install dependencies:
 
-![Overview Dashboard](docs/screenshots/overview-dashboard.png)
+   ```bash
+   npm install
+   ```
 
-<details>
-<summary>Profile, weight, lab, medication, and symptom screens</summary>
+3. Start the development server:
 
-### My Profile
+   ```bash
+   npm run dev
+   ```
 
-![My Profile](docs/screenshots/profile.png)
+4. Open the local URL printed by Vite, usually **http://localhost:5173**. If that port is occupied, Vite may print a different port.
 
-### Weight Tracking
+For an installation that follows the committed lockfile exactly, use `npm ci` instead of `npm install`.
 
-![Weight Tracking](docs/screenshots/weight-tracking.png)
+## Development Commands
 
-### Lab Results
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run typecheck` | Check TypeScript without generating files |
+| `npm run lint` | Run ESLint |
+| `npm run test` | Run the test suite once |
+| `npm run test:watch` | Run tests while developing |
+| `npm run build` | Generate the production website in `dist/` |
+| `npm run preview` | Serve the production build locally |
 
-![Lab Results](docs/screenshots/lab-results.png)
+`npm test` is equivalent to `npm run test`. The build command runs Vite; TypeScript checking is a separate command.
 
-### Medication Tracking
+To preview the production build:
 
-![Medication Tracking](docs/screenshots/medication-tracking.png)
+```bash
+npm run build
+npm run preview
+```
 
-### Symptom Check-ins
-
-![Symptom Check-ins](docs/screenshots/symptom-check-ins.png)
-
-</details>
-
-## Technology
-
-| Area              | Technologies                                         |
-| ----------------- | ---------------------------------------------------- |
-| UI                | React 19.3.1, TypeScript 7.0.2, Chakra UI 3.37.0     |
-| Build and routing | Vite 6.4.5, React Router 7.18.4                      |
-| Charts and icons  | Recharts 3.10.1, Lucide React 1.61.0                 |
-| PDF export        | jsPDF 4.2.1, jsPDF-AutoTable 5.0.9                   |
-| Tests and lint    | Vitest 4.1.12, Testing Library 16.3.3, ESLint 9.39.5 |
-
-These versions are taken from the current `package.json`; the lockfile records the resolved install graph.
+Open the URL printed by the preview server. Production assets use the `/thyroid-companion/` path configured for GitHub Pages.
 
 ## Architecture
 
 ```text
 src/main.tsx
-  └─ ChakraProvider + BrowserRouter + HealthDataProvider
-       └─ AppRoutes + AppShell
-            ├─ DashboardPage
-            ├─ ProfilePage
-            ├─ LabResultsPage
-            ├─ MedicationsPage
-            ├─ SymptomsPage
-            ├─ NutritionPage
-            ├─ ActivityPage
-            ├─ ReportsPage
-            └─ TrendsPage
+  └─ StrictMode
+       └─ ChakraProvider
+            └─ HashRouter
+                 └─ HealthDataProvider
+                      └─ AppRoutes
+                           └─ AppShell + current screen
 ```
 
-- `src/types/health.ts` defines profile, weight, lab, medication, schedule, dose-record, symptom, nutrition, hydration, and activity models.
-- `src/context/HealthDataContext.tsx` owns the shared in-memory application state and update operations for all tracking features.
-- Feature pages consume shared state through `src/context/useHealthData.ts`.
-- `src/health/` contains calculation, input validation, sorting, filtering, unit-conversion, reference-comparison, report-assembly, and browser-only PDF helpers.
-- `src/data/demoData.ts` provides fictional initial records; there is no API or persistence layer.
-- `src/styles.css` holds the established application design and feature-specific responsive rules.
-
-## Technical Decisions
-
-- **One client-side source of truth:** profile, weight, labs, medication, dose, symptom, nutrition, hydration, and activity records share the existing React Context rather than duplicating page-local data.
-- **Typed boundaries:** domain interfaces and constrained rating/status unions make invalid application states easier to catch during development; runtime validation still checks user-entered values.
-- **No assumed medical ranges:** lab comparisons use only reference limits entered for that result and do not compare across units.
-- **No inferred dose completion:** passing a schedule time does not mark a medication taken or skipped.
-- **Careful trend semantics:** symptom views use the self-reported 1–5 scale; missing nutrition values stay unrecorded rather than becoming zero, and activity or hydration values retain their stated units.
-- **Local report export:** reports use shared in-memory records, include explicit date ranges and user-entered lab references, and load PDF code only when export is requested. No health data is sent to a service.
-- **Route loading:** feature pages and chart modules load when opened, keeping the initial download smaller while retaining the same routes and interface.
-- **Temporary state:** this keeps the prototype small and avoids persisting sensitive health details, at the cost of losing edits on refresh.
-
-## Accessibility and Responsive Design
-
-Forms use visible labels, marked required fields, fieldsets and legends, and validation messages linked to affected controls where applicable. Action buttons have contextual accessible names; concise status changes use live regions; destructive actions require confirmation. Wide data tables are named, keyboard-focusable scroll regions, and charts include accessible labels and data tables. Visible focus styling and responsive layouts are included. These are implementation choices, not a claim of formal WCAG conformance; manual assistive-technology review remains future work.
-
-## Run Locally
-
-**Prerequisite:** Node.js 20 or newer and npm.
-
-```bash
-git clone https://github.com/jaya4ever/thyroid-companion.git
-cd thyroid-companion
-npm install
-npm run dev
+```text
+src/
+  components/    Shared layout and navigation
+  features/      Feature screens and interaction tests
+  context/       Shared health records and update actions
+  types/         TypeScript definitions for health records
+  health/        Calculations, validation, trends, and report helpers
+  data/          Fictional starter records
+  pages/         General section and placeholder page
+  styles.css     App styling and responsive layouts
 ```
 
-Open the local URL printed by Vite (typically `http://localhost:5173`).
+- `src/context/HealthDataContext.tsx` owns shared in-memory records. Screens access them through `useHealthData()` so updates can also appear on the dashboard.
+- `src/types/health.ts` defines record shapes and constrained rating and status values. Runtime validation checks user-entered values.
+- `src/health/` separates calculations, sorting, validation, and report assembly from screen components.
+- Feature screens load through React lazy loading. PDF libraries load when an export is requested.
+- Lab comparisons use only entered reference limits and matching units. Medication completion requires explicit user input. Missing nutrient values stay distinct from zero.
 
-## Validation
+## Testing and Accessibility
+
+The current suite has **97 passing tests across 16 test files**, covering calculations, validation, tracking workflows, dashboard updates, trends, report assembly, and PDF generation.
+
+Activity-summary tests use a fixed clock to verify both Monday and Thursday totals without depending on the date the suite runs.
+
+Run the project checks with:
 
 ```bash
+npm run test
 npm run typecheck
-npm test
 npm run lint
 npm run build
 ```
 
-The verified current run has 96 passing tests across health helpers, profile and weight flows, lab tracking, medication tracking, symptom check-ins, nutrition and hydration, activity, reports, PDF generation, dashboard synchronization, and trend data.
+Accessibility features include labeled controls, linked validation messages where applicable, visible focus styles, status announcements, and keyboard-focusable table regions. Trend views provide charts and data tables. Formal accessibility conformance has not been assessed; manual keyboard, screen-reader, and browser testing remain planned work.
 
-## Privacy and Safety
+The GitHub Pages workflow is started manually and runs lint, TypeScript checks, tests, and the production build before deployment.
 
-- Use fictional demo information only; do not enter real patient data.
-- Records live only in temporary React memory. No backend, database, authentication, browser storage, analytics, or health-data API is implemented.
-- PDF reports are assembled from the current in-memory demo records and generated in the browser; exporting does not upload health data.
-- The stylesheet requests DM Sans and Manrope from Google Fonts. This is a third-party font request; app health data is not sent with it.
-- Lab and symptom values are for tracking and education only. They do not diagnose conditions, recommend medication, or replace professional medical advice.
-- This prototype has not undergone a security or compliance assessment and is not production-ready or HIPAA compliant.
+## Demo Data and Limitations
 
-## Roadmap
+- All starter profiles and health records are fictional. Use fictional information only.
+- Records live in React memory and reset on refresh. There is no backend, database, authentication, or browser-storage persistence.
+- PDFs are generated from selected records in the browser without uploading them to a report service. Reports are labeled **Fictional Demo Data — Not for Medical Use**.
+- Google Fonts supplies the app's fonts; health records are not included in font requests. No analytics or health-data API is configured.
+- This prototype provides tracking interfaces, not diagnosis or treatment recommendations. It is not intended for clinical use or real patient data and has not undergone a security or compliance assessment.
 
-1. Confirm asset provenance before adding the excluded local files to Git; select a project license before granting reuse rights or distributing packaged application copies.
-2. Conduct a manual keyboard, screen-reader, and responsive review with representative browsers.
-3. If persistence is ever added, define consent, data minimization, retention, export/deletion, and a threat model before selecting storage or service architecture.
-4. Add end-to-end browser coverage and a documented release process if the prototype moves beyond portfolio use.
+See [SECURITY.md](SECURITY.md) for further privacy and security notes.
 
-## Acknowledgments and Licensing
+## Screenshot Status
 
-The project uses React, Chakra UI, Emotion, React Router, and Recharts under MIT licenses; Lucide React under ISC with a separate MIT notice for Feather-derived icons; and DM Sans and Manrope under the SIL Open Font License 1.1. License texts and attribution details are collected in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The dashboard image at the top was captured from the local application on October 29, 2026. It shows the current local source; the deployed demo may differ until a deployment is approved.
 
-The project has no project-level license. Public visibility does not grant an open-source license to reuse this application's code; the third-party notices cover dependencies, not the application. Five unused assets with unconfirmed provenance are excluded by `.gitignore` and remain only in the local working copy. See the notices file before adding or distributing them.
+The older images remain in `docs/screenshots/` as historical assets and are not presented as the latest interface:
+
+| Older file | Why it should be replaced |
+| --- | --- |
+| `overview-dashboard.png` | Missing Nutrition, Activity, and Reports navigation and the daily tracking summary; superseded here by `overview-dashboard-current.png`. |
+| `profile.png` | Shows the older sidebar without Nutrition, Activity, or Reports. |
+| `weight-tracking.png` | Shows the older sidebar; duplicates the full profile screenshot rather than focusing on weight tracking. |
+| `lab-results.png` | Shows the older sidebar and omits the current saved-result edit/delete actions. |
+| `medication-tracking.png` | Shows the older sidebar and omits the current medication edit action. |
+| `symptom-check-ins.png` | Shows the older sidebar; should be recaptured with the current navigation. |
+
+Screenshots of nutrition, activity, reports, and trends would provide further examples of the completed features.
+
+## Planned Improvements
+
+- Refresh the remaining feature screenshots.
+- Complete manual keyboard, screen-reader, and responsive testing.
+- Add end-to-end browser coverage and automated pull-request checks.
+- Define consent, retention, export/deletion, and security requirements before adding persistence.
+- Confirm unused asset provenance and select a project license before distribution.
+
+## Licensing and Attribution
+
+No project-level license has been selected. Dependency and font notices are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Unused local assets with unverified provenance are excluded from Git and require review before inclusion or distribution.
 
 ## Development Process
 
-AI-assisted tools were used during implementation and documentation. Automated tests, linting, typechecking, and production builds were run; human review is still needed before any release or real-world use.
+AI-assisted tools were used during implementation and documentation. Automated tests, TypeScript, ESLint, and production builds support review; these checks do not replace human review.
