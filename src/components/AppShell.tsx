@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { PropsWithChildren } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -89,6 +89,43 @@ function ProfileSummary() {
 function AppShell({ children }: PropsWithChildren) {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const menuRef = useRef<HTMLDialogElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const dialog = menuRef.current;
+    if (!dialog) return;
+
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const bodyStyle = document.body.style.cssText;
+    const htmlOverflow = document.documentElement.style.overflow;
+    // A fixed body also prevents background touch scrolling on mobile Safari.
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = `-${scrollX}px`;
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    dialog.showModal();
+
+    const desktop = window.matchMedia("(min-width: 761px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setMenuOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    closeOnDesktop();
+
+    return () => {
+      desktop.removeEventListener("change", closeOnDesktop);
+      dialog.close();
+      document.body.style.cssText = bodyStyle;
+      document.documentElement.style.overflow = htmlOverflow;
+      window.scrollTo(scrollX, scrollY);
+      toggleRef.current?.focus({ preventScroll: true });
+    };
+  }, [menuOpen]);
 
   return (
     <div className="app-frame">
@@ -104,6 +141,7 @@ function AppShell({ children }: PropsWithChildren) {
         <header className="mobile-header">
           <Brand />
           <button
+            ref={toggleRef}
             className="menu-toggle"
             type="button"
             aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -113,9 +151,6 @@ function AppShell({ children }: PropsWithChildren) {
           >
             {menuOpen ? <X size={19} /> : <Menu size={19} />}
           </button>
-          <div className="mobile-menu" id="mobile-navigation" hidden={!menuOpen}>
-            <NavigationLinks onNavigate={() => setMenuOpen(false)} />
-          </div>
         </header>
 
         <div className="demo-notice" role="note">
@@ -127,6 +162,34 @@ function AppShell({ children }: PropsWithChildren) {
           {children}
         </div>
       </main>
+
+      <dialog
+        ref={menuRef}
+        className="mobile-menu"
+        id="mobile-navigation"
+        aria-label="Navigation menu"
+        onCancel={(event) => {
+          event.preventDefault();
+          setMenuOpen(false);
+        }}
+        onClose={() => setMenuOpen(false)}
+        onClick={(event) => {
+          if (event.target !== event.currentTarget) return;
+          const rect = event.currentTarget.getBoundingClientRect();
+          if (event.clientX < rect.left || event.clientX > rect.right ||
+              event.clientY < rect.top || event.clientY > rect.bottom) setMenuOpen(false);
+        }}
+      >
+        <div className="mobile-menu-header">
+          <Brand />
+          <button className="menu-toggle" type="button" aria-label="Close navigation menu" onClick={() => setMenuOpen(false)}>
+            <X size={19} aria-hidden="true" />
+          </button>
+        </div>
+        <div className="mobile-menu-scroll">
+          <NavigationLinks onNavigate={() => setMenuOpen(false)} />
+        </div>
+      </dialog>
     </div>
   );
 }

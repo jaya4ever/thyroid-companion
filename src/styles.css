@@ -1148,13 +1148,13 @@ button {
 
   .mobile-header {
     align-items: center;
-    background: rgba(248, 249, 245, .96);
+    background: #f8f9f5;
     border-bottom: 1px solid var(--line);
     display: flex;
-    height: 62px;
+    height: calc(62px + env(safe-area-inset-top, 0px));
     justify-content: space-between;
     margin: 0 -18px 23px;
-    padding: 0 18px;
+    padding: env(safe-area-inset-top, 0px) max(18px, env(safe-area-inset-right, 0px)) 0 max(18px, env(safe-area-inset-left, 0px));
     position: sticky;
     top: 0;
     z-index: 10;
@@ -1192,20 +1192,53 @@ button {
   }
 
   .mobile-menu {
-    background: #fff;
+    background: #f8f9f5;
     border: 1px solid var(--line);
-    border-radius: 11px;
-    box-shadow: 0 12px 28px rgba(35, 64, 48, .12);
-    display: block;
-    left: 18px;
-    padding: 8px;
-    position: absolute;
-    right: 18px;
-    top: 56px;
+    border-radius: 12px;
+    color: var(--ink);
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: calc(100% - 24px);
+    max-width: 480px;
+    height: calc(100vh - 24px);
+    height: calc(100dvh - 24px);
+    max-height: none;
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+      env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    overflow: hidden;
+    z-index: 100;
   }
 
-  .mobile-menu[hidden] {
-    display: none;
+  .mobile-menu[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu::backdrop {
+    background: rgba(20, 35, 28, .6);
+  }
+
+  .mobile-menu-header {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: space-between;
+    padding: 14px;
+    border-bottom: 1px solid var(--line);
+    background: #f8f9f5;
+  }
+
+  .mobile-menu-header .brand {
+    margin: 0;
+  }
+
+  .mobile-menu-scroll {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 14px;
   }
 
   .mobile-menu .nav-link {
@@ -1298,12 +1331,7 @@ button {
 
   .mobile-header {
     margin-inline: -14px;
-    padding-inline: 14px;
-  }
-
-  .mobile-menu {
-    left: 14px;
-    right: 14px;
+    padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px));
   }
 
   .page-title {
