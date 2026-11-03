@@ -23,8 +23,8 @@ permissions:
 
 # Finish an active deployment; retain only the latest pending run.
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.pull_request.number) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -46,6 +46,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Check dependency vulnerabilities
+        run: npm audit --audit-level=high
       - name: Run tests
         run: npm run test
       - name: Check React TypeScript
