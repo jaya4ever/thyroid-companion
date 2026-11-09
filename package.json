@@ -32,7 +32,7 @@
     "recharts": "^3.10.1"
   },
   "devDependencies": {
-    "@babel/core": "8.0.10",
+    "@babel/core": "8.1.0",
     "@babel/eslint-parser": "8.0.7",
     "@babel/plugin-syntax-typescript": "8.0.3",
     "@electron-forge/cli": "8.0.1",
