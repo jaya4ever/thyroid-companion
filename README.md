@@ -138,6 +138,8 @@ Next steps include refreshing feature screenshots, extending browser coverage, c
 
 ## Attribution and Development
 
-No project-level license has been selected. Dependency, font, desktop-runtime, and asset notices are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Thyroid Companion is available under the [Thyroid Companion Non-Commercial and Attribution License](LICENSE). Non-commercial use is permitted with attribution; commercial use requires a separate written commercial license and payment. Commercial license inquiries: [jaya4ever on GitHub](https://github.com/jaya4ever).
+
+Dependency, font, desktop-runtime, and asset notices are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 AI-assisted tools were used during implementation and documentation. Automated checks support engineering review and do not replace human review.
